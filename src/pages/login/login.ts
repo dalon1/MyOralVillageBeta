@@ -24,7 +24,12 @@ export class Login {
     public authService: AuthService, private toastCtrl: ToastController) {
   }
 
-  login() {
+  login(){
+    this.navCtrl.push(TabsPage);
+  }
+
+  // login() {
+  loginMock() {
     if (this.userData.username && this.userData.password) {
       this.authService.postData(this.userData, "login").then((result) => {
         this.responseData = result;
@@ -41,6 +46,7 @@ export class Login {
 
       }, (err) => {
         //Connection failed message
+        this.presentToast('Connection cannot be estabilished. Try again in a few minutes');
       });
     }
     else {

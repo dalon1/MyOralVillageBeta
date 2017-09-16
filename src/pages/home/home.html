@@ -1,7 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <!-- <ion-title>Home</ion-title> -->
+    <ion-toolbar no-border-top color="primary" *ngIf="demo != 'Title'">
+      <ion-searchbar></ion-searchbar>
+    </ion-toolbar>
   </ion-navbar>
+  
 </ion-header>
 
 <ion-content padding>
