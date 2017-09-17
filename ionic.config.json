@@ -1,6 +1,6 @@
 {
   "name": "myoralvillage",
-  "app_id": "",
+  "app_id": "5adbd407",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
