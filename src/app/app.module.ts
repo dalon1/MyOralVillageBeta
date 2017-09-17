@@ -18,6 +18,7 @@ import { SplitPane } from '../providers/split-pane/split-pane';
 import { Signup } from '../pages/signup/signup';
 import { Login } from '../pages/login/login';
 import { Welcome } from '../pages/welcome/welcome';
+import { News } from '../pages/news/news';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { Welcome } from '../pages/welcome/welcome';
     TabsPage,
     Signup,
     Login,
-    Welcome
+    Welcome,
+    News
   ],
   imports: [
     BrowserModule, HttpModule,
@@ -43,7 +45,8 @@ import { Welcome } from '../pages/welcome/welcome';
     TabsPage, 
     Signup,
     Login, 
-    Welcome
+    Welcome,
+    News
   ],
   providers: [
     StatusBar,
