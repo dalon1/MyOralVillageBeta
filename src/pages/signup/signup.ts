@@ -1,6 +1,6 @@
 import { AuthService } from './../../providers/auth-service/auth-service';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { Login } from '../login/login';
 
@@ -11,7 +11,6 @@ import { Login } from '../login/login';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',

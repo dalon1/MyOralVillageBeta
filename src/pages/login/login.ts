@@ -1,7 +1,7 @@
 import { TabsPage } from './../tabs/tabs';
 import { AuthService } from './../../providers/auth-service/auth-service';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 
 /**
  * Generated class for the LoginPage page.
@@ -10,7 +10,6 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
