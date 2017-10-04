@@ -1,73 +1,71 @@
-import { TabsPage } from './../tabs/tabs';
-import { AuthService } from './../../providers/auth-service/auth-service';
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import {   
+  NavController, 
+  LoadingController, 
+  Loading, 
+  AlertController } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { AuthService } from '../../providers/auth-service/auth-service';
+import { EmailValidator } from '../../utils/validators/email';
+import { TabsPage } from '../tabs/tabs';
+import { ResetPassword } from '../reset-password/reset-password';
+import { Signup } from '../signup/signup';
 
 @Component({
   selector: 'page-login',
-  templateUrl: 'login.html',
+  templateUrl: 'login.html'
 })
 export class Login {
 
-  responseData: any;
-  userData = { "username": "", "password": "" };
+  public loginForm:FormGroup;
+  public loading:Loading;
 
-  constructor(public navCtrl: NavController, 
-    public navParams: NavParams,
-    public authService: AuthService,
-    private toastCtrl: ToastController    
-  ) {
-  }
+  constructor(public navCtrl: NavController, public authData: AuthService, 
+    public formBuilder: FormBuilder, public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController) {
 
-  login(){
-    
-    this.authService.Login(this.userData.username, this.userData.password);
-    debugger;
-    this.navCtrl.push(TabsPage);
-  }
-
-  // login() {
-  loginMock() {
-    if (this.userData.username && this.userData.password) {
-      this.authService.postData(this.userData, "login").then((result) => {
-        this.responseData = result;
-        console.log(this.responseData);
-        if (this.responseData.userData) {
-          localStorage.setItem('userData', JSON.stringify(this.responseData))
-          this.navCtrl.push(TabsPage);
-        }
-        else {
-          this.presentToast("Please give valid username and password");
-        }
-
-
-
-      }, (err) => {
-        //Connection failed message
-        this.presentToast('Connection cannot be estabilished. Try again in a few minutes');
+      this.loginForm = formBuilder.group({
+        email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
+        password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
       });
-    }
-    else {
-      this.presentToast("Give username and password");
+  }
+
+  loginUser(){
+    if (!this.loginForm.valid){
+      console.log(this.loginForm.value);
+    } else {
+      this.authData.loginUser(this.loginForm.value.email, this.loginForm.value.password)
+      .then( authData => {
+        this.navCtrl.setRoot(TabsPage);
+      }, error => {
+        this.loading.dismiss().then( () => {
+          let alert = this.alertCtrl.create({
+            message: error.message,
+            buttons: [
+              {
+                text: "Ok",
+                role: 'cancel'
+              }
+            ]
+          });
+          alert.present();
+        });
+      });
+
+      this.loading = this.loadingCtrl.create({
+        dismissOnPageChange: true,
+      });
+      this.loading.present();
     }
   }
 
-  presentToast(msg) {
-    let toast = this.toastCtrl.create({
-      message: msg,
-      duration: 2000
-    });
-    toast.present();
+  goToResetPassword(){
+    this.navCtrl.push(ResetPassword);
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+
+  createAccount(){
+    this.navCtrl.push(Signup);
   }
 
 }
