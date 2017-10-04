@@ -4,6 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Login } from '../login/login';
 import { Signup } from '../signup/signup';
 
+
 /**
  * Generated class for the WelcomePage page.
  *
@@ -31,6 +32,9 @@ export class Welcome {
     this.navCtrl.push(Signup, {animate:false});
   }
 
+  guestLogin(){
+    this.navCtrl.push(TabsPage);
+  }
   
 
   ionViewDidLoad() {

@@ -19,11 +19,17 @@ export class Login {
   responseData: any;
   userData = { "username": "", "password": "" };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    public authService: AuthService, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    public authService: AuthService,
+    private toastCtrl: ToastController    
+  ) {
   }
 
   login(){
+    
+    this.authService.Login(this.userData.username, this.userData.password);
+    debugger;
     this.navCtrl.push(TabsPage);
   }
 

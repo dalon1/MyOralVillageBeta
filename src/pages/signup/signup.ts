@@ -28,15 +28,18 @@ export class Signup {
   signup(){
     
     if(this.userData.username && this.userData.password && this.userData.email && this.userData.name){
+
+this.authService.signIn(this.userData.email, this.userData.password);
+
       //API connection
-      this.authService.postData(this.userData, "signup").then(result => {
-        this.responseData = result;
-        console.log(this.responseData);
-        localStorage.setItem('userData', JSON.stringify(this.responseData));
-        this.navCtrl.push(TabsPage);
-      }, err => {
-        //Connection failed message
-      })
+      // this.authService.postData(this.userData, "signup").then(result => {
+      //   this.responseData = result;
+      //   console.log(this.responseData);
+      //   localStorage.setItem('userData', JSON.stringify(this.responseData));
+      //   this.navCtrl.push(TabsPage);
+      // }, err => {
+      //   //Connection failed message
+      // })
     } else {
       this.presentToast("Give valid information");
     }
