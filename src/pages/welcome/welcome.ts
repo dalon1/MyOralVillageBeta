@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Login } from '../login/login';
 import { Signup } from '../signup/signup';
+import { AuthService } from '../../providers/auth-service/auth-service';
 
 
 /**
@@ -18,27 +19,31 @@ import { Signup } from '../signup/signup';
 })
 export class Welcome {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    if(localStorage.getItem('userData')){
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private authService: AuthService) {
+
+    if (localStorage.getItem('userData')) {
       this.navCtrl.setRoot(TabsPage);
     }
   }
 
-  login(){
+  login() {
     this.navCtrl.push(Login);
   }
 
-  signup(){
-    this.navCtrl.push(Signup, {animate:false});
+  signup() {    
+    this.navCtrl.push(Signup, { animate: false });
   }
 
-  guestLogin(){
+  guestLogin() {
+    debugger;
+    this.authService.loginUser();
     this.navCtrl.push(TabsPage);
   }
-  
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad WelcomePage');
+
+  ionViewDidLoad() {    
   }
 
 }

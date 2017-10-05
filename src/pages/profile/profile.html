@@ -1,22 +1,36 @@
 <ion-header>
-  
-    <ion-navbar>
-      <ion-toolbar no-border-top color="primary" *ngIf="demo != 'Title'">
-        <ion-searchbar></ion-searchbar>
-      </ion-toolbar>
-    </ion-navbar>
-  </ion-header>
-  
-  <ion-content>
-    <ion-list>
-      <ion-list-header>My Profile</ion-list-header>
-      <ion-item>
-        <ion-icon name="user" item-left></ion-icon>
-       Name:
+
+  <ion-navbar>
+    <ion-toolbar no-border-top color="primary" *ngIf="demo != 'Title'">
+      <ion-searchbar></ion-searchbar>
+    </ion-toolbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="user | async; then loggedProfile else guestProfile">
+
+  </ion-list>
+
+  <ng-template #loggedProfile>  
+    <ion-item>
+      <ion-icon name="contact" item-left></ion-icon> Name: {{(user | async)?.name}}
+    </ion-item>
+    <ion-item>
+      <ion-icon name="contacts" item-left></ion-icon> Role: {{(user | async)?.role}}
+    </ion-item>
+    <ion-item>
+        <ion-icon name="mail" item-left></ion-icon> Email: {{(user | async)?.email}}
       </ion-item>
-      <ion-item>    
-        <button  ion-button block color="primary" (click)="logout()">Log out</button>
-      </ion-item>
-    </ion-list>
-  </ion-content>
-  
+    <ion-item>
+      <button ion-button block color="primary" (click)="logout()">Log out</button>
+    </ion-item>
+
+  </ng-template>
+  <ng-template #guestProfile>
+    <ion-item>
+      <button ion-button block color="primary" (click)="logout()">Log out</button>
+    </ion-item>
+  </ng-template>
+
+</ion-content>

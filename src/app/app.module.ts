@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 
 import { AngularFireAuthModule} from 'angularfire2/auth'
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 
 import { MainApp } from './app.component';
@@ -25,6 +26,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from '../providers/auth-service/auth-service';
 import { Common } from '../providers/common/common';
 import { SplitPane } from '../providers/split-pane/split-pane';
+import { DataService } from '../providers/data-service/data-service';
 
 
 export const firebaseConfig = {
@@ -55,7 +57,9 @@ export const firebaseConfig = {
     IonicModule.forRoot(MainApp),    
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFirestoreModule,    
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule.enablePersistence()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -77,7 +81,8 @@ export const firebaseConfig = {
     AuthService,
     Common,
     SplitPane,
-    AngularFireModule
+    AngularFireModule,
+    DataService
   ]
 })
 export class AppModule {}

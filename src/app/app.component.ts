@@ -14,7 +14,7 @@ import { Login } from '../pages/login/login';
 })
 export class MainApp {
 
-  rootPage: any = Welcome;
+  rootPage: any;
 
   constructor(platform: Platform,
     statusBar: StatusBar,
@@ -24,8 +24,8 @@ export class MainApp {
     public menu: MenuController,
     private auth: AngularFireAuth) {
 
-    const authObserver  = auth.authState.subscribe(user => {
-      if (user){
+    const authObserver = auth.authState.subscribe(user => {
+      if (user) {
         this.rootPage = TabsPage
         authObserver.unsubscribe();
       } else {
@@ -33,8 +33,6 @@ export class MainApp {
         authObserver.unsubscribe();
       }
     });
-
-
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.

@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-import { 
-  IonicPage, 
-  NavController, 
-  LoadingController, 
-  Loading, 
-  AlertController } from 'ionic-angular';
+import {
+  IonicPage,
+  NavController,
+  LoadingController,
+  Loading,
+  AlertController
+} from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { EmailValidator } from '../../utils/validators/email';
 import { TabsPage } from '../tabs/tabs';
+import { Role } from '../../models/Role';
 
 
 
@@ -17,16 +19,17 @@ import { TabsPage } from '../tabs/tabs';
   templateUrl: 'signup.html',
 })
 export class Signup {
-  public signupForm:FormGroup;
-  public loading:Loading;
+  public signupForm: FormGroup;
+  public loading: Loading;
 
-  constructor(public nav: NavController, public authData: AuthService, 
-    public formBuilder: FormBuilder, public loadingCtrl: LoadingController, 
+  constructor(public nav: NavController, public authData: AuthService,
+    public formBuilder: FormBuilder, public loadingCtrl: LoadingController,
     public alertCtrl: AlertController) {
 
     this.signupForm = formBuilder.group({
       email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
-      password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
+      password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
+      name: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
   }
 
@@ -36,16 +39,19 @@ export class Signup {
    *
    * If the form is invalid it will just log the form value, feel free to handle that as you like.
    */
-  signupUser(){
-    if (!this.signupForm.valid){
+  signupUser() {
+    if (!this.signupForm.valid) {
       console.log(this.signupForm.value);
     } else {
-      this.authData.signupUser(this.signupForm.value.email, this.signupForm.value.password)
-      .then(() => {
-        this.nav.setRoot(TabsPage);
-      }, (error) => {
-        this.loading.dismiss().then( () => {
-          var errorMessage: string = error.message;
+      this.authData.signupUser(
+        this.signupForm.value.email,
+        this.signupForm.value.password,
+        this.signupForm.value.name, Role.Member)
+        .then((user) => {
+          this.nav.setRoot(TabsPage);
+        }, (error) => {
+          this.loading.dismiss().then(() => {
+            var errorMessage: string = error.message;
             let alert = this.alertCtrl.create({
               message: errorMessage,
               buttons: [
@@ -55,9 +61,9 @@ export class Signup {
                 }
               ]
             });
-          alert.present();
+            alert.present();
+          });
         });
-      });
 
       this.loading = this.loadingCtrl.create({
         dismissOnPageChange: true,

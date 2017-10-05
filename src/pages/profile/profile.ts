@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { App, NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { Welcome } from '../welcome/welcome';
+import { DataService } from '../../providers/data-service/data-service';
+import { IUser } from '../../models/IUser';
+import { Observable } from 'rxjs/Observable';
+import { AngularFirestoreDocument, AngularFirestore } from 'angularfire2/firestore';
 
 /**
  * Generated class for the ProfilePage page.
@@ -16,20 +20,28 @@ import { Welcome } from '../welcome/welcome';
 })
 export class Profile {
 
+  private userDoc: AngularFirestoreDocument<IUser>;
+  private user:Observable<IUser>;
+
   constructor(public navCtrl: NavController,
-    private auth:AuthService,
-    private app:App) {
-  
-    }
-  
-    logout(){
-      this.auth.logoutUser();   
-      let mainNav = this.app.getRootNav();
-      mainNav.push(Welcome);     
-    }
+    private auth: AuthService,
+    private db: DataService,
+    private app: App,
+    private afs:AngularFirestore) {
+      this.userDoc = afs.doc<IUser>(`users/${auth.afAuth.auth.currentUser.uid}`);
+      this.user = this.userDoc.valueChanges();
+  }
+
+
+
+  logout() {
+    this.auth.logoutUser();
+    let mainNav = this.app.getRootNav();
+    mainNav.push(Welcome);
+  }
 
   ionViewDidLoad() {
-    
+     
   }
 
 }
