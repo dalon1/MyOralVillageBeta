@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { App, NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
+import { Welcome } from '../welcome/welcome';
 
 /**
  * Generated class for the ProfilePage page.
@@ -16,12 +17,15 @@ import { AuthService } from '../../providers/auth-service/auth-service';
 export class Profile {
 
   constructor(public navCtrl: NavController,
-    private auth:AuthService) {
+    private auth:AuthService,
+    private app:App) {
   
     }
   
     logout(){
       this.auth.logoutUser();   
+      let mainNav = this.app.getRootNav();
+      mainNav.push(Welcome);     
     }
 
   ionViewDidLoad() {
