@@ -11,7 +11,6 @@ import { MainApp } from './app.component';
 import { HttpModule } from "@angular/http";
 
 import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { Signup } from '../pages/signup/signup';
@@ -42,7 +41,6 @@ export const firebaseConfig = {
   declarations: [
     MainApp,
     AboutPage,
-    ContactPage,
     HomePage,
     TabsPage,
     Signup,
@@ -63,7 +61,6 @@ export const firebaseConfig = {
   entryComponents: [
     MainApp,
     AboutPage,
-    ContactPage,
     HomePage,
     TabsPage, 
     Signup,
