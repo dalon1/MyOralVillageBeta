@@ -33,8 +33,8 @@ export class AuthService {
     let newUser: Promise<IUser> = this.afAuth.auth.createUserWithEmailAndPassword(newEmail, newPassword);
     newUser
       .then(() => {
-        const usersCollection = this.afFirestore.collection<IUser>('users');
-        usersCollection.add({
+        const usersCollection = this.afFirestore.collection<IUser>('users').doc(this.afAuth.auth.currentUser.uid);
+        usersCollection.set({
           name: name,
           email: newEmail,
           role: role ? role:Role.Member

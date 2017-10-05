@@ -184,9 +184,9 @@ android-versions@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/android-versions/-/android-versions-1.2.1.tgz#3f50baf693e73a512c3c5403542291cead900063"
 
-angularfire2@^5.0.0-rc.0:
-  version "5.0.0-rc.0-next"
-  resolved "https://registry.yarnpkg.com/angularfire2/-/angularfire2-5.0.0-rc.0-next.tgz#6eb7d74181d501362a3bd3b46b6f57ef62762425"
+angularfire2@5.0.0-rc.1:
+  version "5.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/angularfire2/-/angularfire2-5.0.0-rc.1.tgz#829c943f5bda71758d8b1b44a1cd17eee7227f2a"
 
 ansi-regex@^2.0.0:
   version "2.1.1"
@@ -3951,9 +3951,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@2.3.4:
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.4.tgz#3d38321828231e434f287514959c37a82b629f42"
+typescript@2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.4.0.tgz#aef5a8d404beba36ad339abf079ddddfffba86dd"
 
 uglify-js@^2.8.29:
   version "2.8.29"
