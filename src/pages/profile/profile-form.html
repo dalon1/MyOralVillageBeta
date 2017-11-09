@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            <ion-icon name="contact" item-left></ion-icon> Update Profile
+        </ion-title>
+      <!-- <ion-toolbar no-border-top color="primary" *ngIf="demo != 'Title'">
+            <ion-searchbar></ion-searchbar>
+        </ion-toolbar> -->
+   </ion-navbar>
+ </ion-header>
+
+<ion-content>
+    <!-- Update Profile Form -->
+    <form 
+        [formGroup]="profileForm"
+        (ngSubmit)="submitUpdate(profileForm.value)">
+
+        <ion-item text-wrap>
+                <h1>Profile Form</h1> 
+                <button ion-button type="button" item-right color="primary" (click)="selectFileFromExplorer()">
+                        <ion-icon name="camera" item-right></ion-icon> Select
+                </button>
+        </ion-item>
+
+        <!-- Description -->
+        <ion-item text-wrap>
+            <ion-label stacked>About Me</ion-label>
+            <ion-input formControlName="description"></ion-input>
+        </ion-item>
+
+        <!-- Country -->
+        <ion-item text-wrap>
+            <ion-label stacked>Country</ion-label>
+            <ion-input formControlName="country"></ion-input>
+        </ion-item>
+
+        <button ion-button full color="primary" type="submit">Update</button>
+        
+    </form>
+</ion-content>

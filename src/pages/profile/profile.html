@@ -12,25 +12,41 @@
 
   </ion-list>
 
-  <ng-template #loggedProfile>  
+  <ng-template #loggedProfile>
     <ion-item>
+      <div class="center">
+          <img class="profile-picture" [src]="picturePath">
+      </div>
+    </ion-item>
+    <ion-item text-wrap>
       <ion-icon name="contact" item-left></ion-icon> Name: {{(user | async)?.name}}
     </ion-item>
-    <ion-item>
+    <ion-item text-wrap>
       <ion-icon name="contacts" item-left></ion-icon> Role: {{(user | async)?.role}}
     </ion-item>
-    <ion-item>
+    <ion-item text-wrap>
         <ion-icon name="mail" item-left></ion-icon> Email: {{(user | async)?.email}}
-      </ion-item>
-    <ion-item>
-      <button ion-button block color="primary" (click)="logout()">Log out</button>
     </ion-item>
+    <ion-item text-wrap>
+      <ion-icon name="briefcase" item-left></ion-icon> About Me: {{ (user | async)?.description }}
+    </ion-item>
+    <ion-item text-wrap>
+      <ion-icon name="map" item-left></ion-icon> Country: {{ (user | async)?.country }}
+    </ion-item>
+    
+    <button ion-button full color="secondary" (click)="updateProfile()">Update Profile</button>
+    <button ion-button full color="primary" (click)="logout()">Log out</button>
+    
 
   </ng-template>
   <ng-template #guestProfile>
-    <ion-item>
-      <button ion-button block color="primary" (click)="logout()">Log out</button>
-    </ion-item>
+    <!-- No idea if I can put this padding inside the dom element -->
+      <p padding>
+       No Account? Create one now!
+      </p>
+   
+    <button ion-button full color="secondary" (click)="signUpFromGuestPage()">Sign Up</button>
+    <button ion-button full color="primary" (click)="logout()">Log out</button>
   </ng-template>
 
 </ion-content>

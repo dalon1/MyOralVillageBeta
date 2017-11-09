@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, App } from 'ionic-angular';
+import { FileAddForm } from '../file-manage/file-add-form';
 
 @Component({
   selector: 'page-home',
@@ -7,8 +8,15 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(
+    public navCtrl: NavController,
+    private app: App,
+  ) {
 
+  }
+
+  goToDocumentAddFormPage() {
+    this.app.getRootNav().push(FileAddForm);
   }
 
 }

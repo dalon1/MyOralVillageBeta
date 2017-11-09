@@ -14,27 +14,33 @@ import { HttpModule } from "@angular/http";
 import { AboutPage } from '../pages/about/about';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
+import { OneToOnePage } from '../pages/one2one/one-to-one';
 import { Signup } from '../pages/signup/signup';
 import { Login } from '../pages/login/login';
 import { Welcome } from '../pages/welcome/welcome';
 import { News } from '../pages/news/news';
 import { ResetPassword } from '../pages/reset-password/reset-password';
 import { Profile } from '../pages/profile/profile';
+import { ProfileForm } from '../pages/profile/profile-form';
+import { FileAddForm } from '../pages/file-manage/file-add-form';
+import { FileDetailPage } from '../pages/file-details/file-details';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+//import { Camera } from '@ionic-native/camera'; npm install --save @ionic-native/core@4.2.0 - current 3.12.1
 import { AuthService } from '../providers/auth-service/auth-service';
 import { Common } from '../providers/common/common';
 import { SplitPane } from '../providers/split-pane/split-pane';
 import { DataService } from '../providers/data-service/data-service';
-
+import { FileManager } from '../providers/data-service/file-service';
+import { UserManager } from '../providers/data-service/user-service';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBvuJU6mVWFm8CuS_bPHoHlZ0rLcaEkov4",
   authDomain: "myoralvillage-b7c6a.firebaseapp.com",
   databaseURL: "https://myoralvillage-b7c6a.firebaseio.com",
   projectId: "myoralvillage-b7c6a",
-  storageBucket: "",
+  storageBucket: "myoralvillage-b7c6a.appspot.com",
   messagingSenderId: "662357186353"
 }
 
@@ -45,12 +51,16 @@ export const firebaseConfig = {
     AboutPage,
     HomePage,
     TabsPage,
+    OneToOnePage,
     Signup,
     Login,
     Welcome,
     News,
     ResetPassword,
-    Profile
+    Profile,
+    ProfileForm,
+    FileAddForm,
+    FileDetailPage
   ],
   imports: [
     BrowserModule, HttpModule,
@@ -66,13 +76,17 @@ export const firebaseConfig = {
     MainApp,
     AboutPage,
     HomePage,
-    TabsPage, 
+    TabsPage,
+    OneToOnePage, 
     Signup,
     Login, 
     Welcome,
     News,
     ResetPassword,
-    Profile
+    Profile,
+    ProfileForm,
+    FileAddForm,
+    FileDetailPage
   ],
   providers: [
     StatusBar,
@@ -82,7 +96,9 @@ export const firebaseConfig = {
     Common,
     SplitPane,
     AngularFireModule,
-    DataService
+    DataService,
+    FileManager,
+    UserManager
   ]
 })
 export class AppModule {}

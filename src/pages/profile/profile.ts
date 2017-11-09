@@ -2,10 +2,15 @@ import { Component } from '@angular/core';
 import { App, NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { Welcome } from '../welcome/welcome';
+import { Signup } from '../signup/signup';
+import { ProfileForm } from './profile-form';
 import { DataService } from '../../providers/data-service/data-service';
 import { IUser } from '../../models/IUser';
 import { Observable } from 'rxjs/Observable';
+import { FirebaseApp } from 'angularfire2';
+import 'firebase/storage';
 import { AngularFirestoreDocument, AngularFirestore } from 'angularfire2/firestore';
+import { UserManager } from '../../providers/data-service/user-service';
 
 /**
  * Generated class for the ProfilePage page.
@@ -22,14 +27,18 @@ export class Profile {
 
   private userDoc: AngularFirestoreDocument<IUser>;
   private user:Observable<IUser>;
+  private picturePath: string;
 
   constructor(public navCtrl: NavController,
     private auth: AuthService,
-    private db: DataService,
+    private userManager: UserManager,
     private app: App,
-    private afs:AngularFirestore) {
-      this.userDoc = afs.doc<IUser>(`users/${auth.afAuth.auth.currentUser.uid}`);
-      this.user = this.userDoc.valueChanges();
+    private fireBaseApp: FirebaseApp) {
+      let userId = this.auth.afAuth.auth.currentUser.uid;
+      this.user = this.userManager.getProfileById(userId);
+      //this.picturePath = this.userManager.getProfilePicture(userId);
+      this.fireBaseApp.storage().ref().child(`profile-pictures/${userId}.jpg`)
+      .getDownloadURL().then(url => this.picturePath = url).catch(error => console.log(error));
   }
 
 
@@ -44,4 +53,14 @@ export class Profile {
      
   }
 
+  /*
+  * Method to update user's profile
+  */
+  updateProfile() {
+    this.app.getRootNav().push(ProfileForm);
+  }
+
+  signUpFromGuestPage() {
+    this.app.getRootNav().push(Signup);
+  }
 }

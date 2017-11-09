@@ -1,0 +1,67 @@
+<ion-header>
+        <ion-navbar>
+            <ion-title>
+                <ion-icon name="cloud-upload" item-left></ion-icon> Upload File
+            </ion-title>
+          <!-- <ion-toolbar no-border-top color="primary" *ngIf="demo != 'Title'">
+                <ion-searchbar></ion-searchbar>
+            </ion-toolbar> -->
+       </ion-navbar>
+     </ion-header>
+    
+    <ion-content>
+        <!-- Update Profile Form -->
+        <form 
+            [formGroup]="fileForm"
+            (ngSubmit)="uploadFile(fileForm.value)">
+            <ion-item>
+                    <h1>Add File</h1> 
+                    <button ion-button type="button" item-right color="primary" (click)="selectFileFromExplorer()">
+                            <ion-icon name="attach" item-right></ion-icon> Attach
+                    </button>
+            </ion-item>
+            <!-- Name -->
+            <ion-item>
+                <ion-label stacked>Title</ion-label>
+                <ion-input formControlName="title"></ion-input>
+            </ion-item>
+            <!--<ion-item *ngIf="documentForm.controls.title.errors?.required">
+                    Name is required
+            </ion-item>-->
+    
+            <!-- Description -->
+            <ion-item>
+                <ion-label stacked>Description</ion-label>
+                <ion-input formControlName="description"></ion-input>
+            </ion-item>
+    
+            <!-- Categories -->
+            <ion-item>
+                    <ion-label stacked>Categories</ion-label><ion-icon name="add" item-right></ion-icon> 
+                    <ion-input formControlName="categories"></ion-input>
+            </ion-item>
+
+            <!-- Tags -->
+            <ion-item text-wrap>
+                    <ion-label stacked>Tags</ion-label> 
+                    <ion-input formControlName="tags" ng-model="txtTag"></ion-input>
+                    <ion-icon name="add" item-right (click)="addTags(txtTag)"></ion-icon>
+                    <ng-template ng-if="document.tags.length > 0">
+                        <p *ngFor="let tag of document.tags">{{ tag }}</p>
+                    </ng-template>        
+            </ion-item>
+
+            <!-- visibility -->
+            <ion-item text-wrap>
+                    <ion-checkbox item-left type="checkbox" formControlName="visibility" [(ngModel)]="chbVisibility"></ion-checkbox>
+                    <!--<div *ngIf="chbVisibility; then private else public"></div>-->
+                        <!-- public  -->
+                       <ion-label><ion-icon name="unlock" item-left></ion-icon> Public</ion-label>
+                        <!-- private -->
+                        <ion-label><ion-icon name="lock" item-left></ion-icon> Private</ion-label>
+            </ion-item>
+            
+            <button ion-button full color="primary" type="submit" [disabled]="!fileForm.valid">Upload</button>
+        </form>
+    </ion-content>
+    
