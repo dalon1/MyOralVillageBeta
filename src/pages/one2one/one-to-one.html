@@ -7,7 +7,7 @@
     </ion-navbar>
   </ion-header>
   
-  <ion-content padding>
+  <ion-content>
     <div *ngIf="user | async; then loggedProfile else guestProfile"></div>
     <!-- template for guest profile -->
     <ng-template #guestProfile>
@@ -20,6 +20,9 @@
           Welcome Back, <br> {{ (user | async)?.name }}
       </h1>
       <h3>See your last chats with other people!!!!</h3>
+      <button ion-button full color="primary" type="button">
+        <ion-icon name="chatbubbles" item-left></ion-icon> New Chat
+      </button>
   </ng-template>
   </ion-content>
   

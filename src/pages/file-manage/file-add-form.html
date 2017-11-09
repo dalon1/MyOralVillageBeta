@@ -36,19 +36,31 @@
             </ion-item>
     
             <!-- Categories -->
-            <ion-item>
-                    <ion-label stacked>Categories</ion-label><ion-icon name="add" item-right></ion-icon> 
-                    <ion-input formControlName="categories"></ion-input>
+            <ion-item text-wrap>
+                    <ion-label stacked>Categories</ion-label>
+                    <ion-input formControlName="categories" [(ngModel)]="txtCategories"></ion-input>
+                    <button ion-button type="button" item-right color="secondary" (click)="addCategories(txtCategories)">
+                            <ion-icon name="add" item-center></ion-icon>
+                    </button>
+            </ion-item>
+            <ion-item text-wrap [hidden]="categories.length === 0">
+                    <ion-badge *ngFor="let category of categories" color="secondary">
+                            {{ category }}
+                        </ion-badge>    
             </ion-item>
 
             <!-- Tags -->
             <ion-item text-wrap>
                     <ion-label stacked>Tags</ion-label> 
-                    <ion-input formControlName="tags" ng-model="txtTag"></ion-input>
-                    <ion-icon name="add" item-right (click)="addTags(txtTag)"></ion-icon>
-                    <ng-template ng-if="document.tags.length > 0">
-                        <p *ngFor="let tag of document.tags">{{ tag }}</p>
-                    </ng-template>        
+                    <ion-input formControlName="tags" [(ngModel)]="txtTags"></ion-input>
+                    <button ion-button type="button" item-right color="secondary" (click)="addTags(txtTags)">
+                            <ion-icon name="add" item-center></ion-icon>
+                    </button>       
+            </ion-item>
+            <ion-item text-wrap [hidden]="tags.length === 0">
+                    <ion-badge *ngFor="let tag of tags" color="secondary">
+                            {{ tag }}
+                    </ion-badge>   
             </ion-item>
 
             <!-- visibility -->

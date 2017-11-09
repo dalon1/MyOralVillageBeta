@@ -8,7 +8,8 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class FileManager {
-    private user: Observable<IUser>; 
+    private user: Observable<IUser>;
+    
     constructor(
         private authService: AuthService,
         private fireBaseApp: FirebaseApp,
@@ -26,9 +27,8 @@ export class FileManager {
         return null;
     }
 
-    getFileById(id:string) : Observable<IDocument>{
-        return null;
-        //this.angularFireStore.collection<IDocument>('documents').doc(`documents/${id}`).;
+    getFileById(id:string) {
+        return this.angularFireStore.collection('documents').doc(`documents/${id}`);
     }
 
     addFile(file: IDocument) {
@@ -53,7 +53,7 @@ export class FileManager {
 
         // 3. storing file's information to fire store
         this.angularFireStore.collection('documents').doc(this.angularFireStore.createId()).set(file)
-        .then(function(){
+        .then(function(document){
             console.log('success!');
         })
         .catch(function(e){

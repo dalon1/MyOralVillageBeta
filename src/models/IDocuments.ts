@@ -14,6 +14,6 @@ export interface IDocument {
     url:string;
     // categories:ICategory[];
     // tags: ITag[];
-    categories:string;
-    tags: string;
+    categories:string[];
+    tags: string[];
 }
