@@ -8,12 +8,16 @@ import { FileManager } from '../../providers/data-service/file-service';
     templateUrl: 'file-details.html'
 })
 export class FileDetailPage {
-    private document: Observable<IDocument>;
+    private selectedFile: Observable<IDocument>;
 
     constructor(
         private fileManager: FileManager
     ) {
-        
+        // TODO A better approach should be implemented here...
+        if (typeof this.fileManager.fileId != 'undefined') {
+            this.selectedFile = this.fileManager.getFileById(this.fileManager.fileId);
+            console.log(this.selectedFile);
+        }
     }
 
     updateFile() {

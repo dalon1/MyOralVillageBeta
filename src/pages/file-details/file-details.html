@@ -10,39 +10,45 @@
     <h1 item-center>File Details</h1>
     <!-- Title -->
     <ion-item text-wrap>
-      <ion-icon name="document" item-left></ion-icon> Title: 
+      <ion-icon name="document" item-left></ion-icon> Title: {{ (selectedFile | async)?.title }}
     </ion-item>
     <!-- Description -->
     <ion-item text-wrap>
-      <ion-icon name="contact" item-left></ion-icon> Description: 
+      <ion-icon name="contact" item-left></ion-icon> Description: {{ (selectedFile | async)?.description }} 
     </ion-item>
     <!-- Owner -->
     <ion-item text-wrap>
-      <ion-icon name="contact" item-left></ion-icon> Owner: 
+      <ion-icon name="contact" item-left></ion-icon> Owner: {{ (selectedFile | async)?.owner }}
     </ion-item>
     <!-- Created At -->
     <ion-item text-wrap>
-      <ion-icon name="time" item-left></ion-icon> Created At: 
+      <ion-icon name="time" item-left></ion-icon> Created At: {{ (selectedFile | async)?.createdAt }}
     </ion-item>
     <!-- Modify At -->
     <ion-item text-wrap>
-      <ion-icon name="time" item-left></ion-icon> Modified At: 
+      <ion-icon name="time" item-left></ion-icon> Modified At: {{ (selectedFile | async)?.modifiedAt }}
     </ion-item>
     <!-- Categories -->
     <ion-item text-wrap>
-      <ion-icon name="albums" item-left></ion-icon> Categories: 
+      <ion-icon name="albums" item-left></ion-icon> Categories:
+      <ion-badge *ngFor="let category of (selectedFile | async)?.categories" color="secondary">
+          {{ category }}
+      </ion-badge>     
     </ion-item>
     <!-- Tags -->
     <ion-item text-wrap>
       <ion-icon name="pricetags" item-left></ion-icon> Tags: 
+      <ion-badge *ngFor="let tag of (selectedFile | async)?.tags" color="secondary">
+          {{ tag }}
+      </ion-badge>    
     </ion-item>
     <!-- Visibility -->
     <ion-item text-wrap>
-      <ion-icon name="lock" item-left></ion-icon> Visibility: 
+      <ion-icon name="lock" item-left></ion-icon> Visibility: {{ (selectedFile | async)?.visibility }}
     </ion-item>
     <!-- Size -->
     <ion-item text-wrap>
-      <ion-icon name="cube" item-left></ion-icon> Size: 
+      <ion-icon name="cube" item-left></ion-icon> Size: N/A
     </ion-item>
    
     <button ion-button full color="secondary" (click)="updateFile()">Update File</button>

@@ -22,7 +22,7 @@ export class UserManager {
         
     }
 
-    // Why the Promise<Observable<IUser>> not working? Asking for a then
+    // Why the Promise<Observable<IUser>> not working? Asking for a then()
     getProfileById(userId: string) : Observable<IUser> {
         return this.angularFireStore.doc<IUser>(`users/${userId}`).valueChanges();
     }

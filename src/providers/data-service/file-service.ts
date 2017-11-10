@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class FileManager {
     private user: Observable<IUser>;
+    public fileId: string = '';
     
     constructor(
         private authService: AuthService,
@@ -27,8 +28,8 @@ export class FileManager {
         return null;
     }
 
-    getFileById(id:string) {
-        return this.angularFireStore.collection('documents').doc(`documents/${id}`);
+    getFileById(id:string) : Observable<IDocument> {
+        return this.angularFireStore.doc<IDocument>(`documents/${id}`).valueChanges();
     }
 
     addFile(file: IDocument) {
@@ -52,13 +53,15 @@ export class FileManager {
         file.visibility = file.visibility ? "PRIVATE" : "PUBLIC";
 
         // 3. storing file's information to fire store
-        this.angularFireStore.collection('documents').doc(this.angularFireStore.createId()).set(file)
+        let id = this.angularFireStore.createId();
+        this.angularFireStore.collection('documents').doc(id).set(file)
         .then(function(document){
             console.log('success!');
         })
         .catch(function(e){
-            console.log('didnt work!!!!');
+            console.log(e);
         });
+        this.fileId = id;
     }
 
     updateFile() {
