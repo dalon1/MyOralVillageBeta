@@ -20,12 +20,8 @@ export class FileManager {
         // nothing yet here
     }
 
-    getFiles() : Observable<IDocument>[] { //: Promise<IDocument[]> {
-        //this.angularFireStore.collection('documents').
-        //this.angularFireStoreCollection
-        /*return this.angularFireStore.collection<IDocument>('documents')
-        .add;*/
-        return null;
+    getFiles() : Observable<IDocument[]> { 
+        return this.angularFireStore.collection<IDocument>('documents').valueChanges();
     }
 
     getFileById(id:string) : Observable<IDocument> {

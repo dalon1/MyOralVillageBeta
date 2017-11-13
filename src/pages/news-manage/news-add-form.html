@@ -1,0 +1,43 @@
+<ion-header>
+        <ion-navbar>
+            <ion-title>
+                <ion-icon name="cloud-upload" item-left></ion-icon> Upload News
+            </ion-title>
+          <!-- <ion-toolbar no-border-top color="primary" *ngIf="demo != 'Title'">
+                <ion-searchbar></ion-searchbar>
+            </ion-toolbar> -->
+       </ion-navbar>
+     </ion-header>
+    
+    <ion-content>
+        <!-- Update Profile Form -->
+        <form 
+            [formGroup]="newsForm"
+            (ngSubmit)="uploadNews(newsForm.value)">
+            <!-- Title -->
+            <ion-item>
+                <ion-label stacked>Title</ion-label>
+                <ion-input formControlName="title"></ion-input>
+            </ion-item>
+        
+            <!-- Content -->
+            <ion-item>
+                <ion-label stacked>Content</ion-label>
+                <ion-textarea formControlName="content" placeholder="Description about the news" rows="4"></ion-textarea>
+            </ion-item>
+
+            <!-- Type -->
+            <ion-item>
+                <ion-label stacked>Type</ion-label>
+                <ion-input formControlName="type"></ion-input>
+        </ion-item>
+    
+        <!-- Url -->
+        <ion-item>
+                <ion-label stacked>Url</ion-label>
+                <ion-input formControlName="url"></ion-input>
+        </ion-item>
+            <button ion-button full color="primary" type="submit" [disabled]="!newsForm.valid">Upload</button>
+        </form>
+    </ion-content>
+    

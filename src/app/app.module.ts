@@ -19,6 +19,8 @@ import { Signup } from '../pages/signup/signup';
 import { Login } from '../pages/login/login';
 import { Welcome } from '../pages/welcome/welcome';
 import { News } from '../pages/news/news';
+import { NewsDetailPage } from '../pages/news/news-details';
+import { NewsAddForm } from '../pages/news-manage/news-add-form';
 import { ResetPassword } from '../pages/reset-password/reset-password';
 import { Profile } from '../pages/profile/profile';
 import { ProfileForm } from '../pages/profile/profile-form';
@@ -34,6 +36,9 @@ import { SplitPane } from '../providers/split-pane/split-pane';
 import { DataService } from '../providers/data-service/data-service';
 import { FileManager } from '../providers/data-service/file-service';
 import { UserManager } from '../providers/data-service/user-service';
+import { NewsManager} from '../providers/data-service/news-service';
+
+import { UserIdPipe } from '../utils/pipes/user-id-pipe';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBvuJU6mVWFm8CuS_bPHoHlZ0rLcaEkov4",
@@ -56,11 +61,14 @@ export const firebaseConfig = {
     Login,
     Welcome,
     News,
+    NewsDetailPage,
+    NewsAddForm,
     ResetPassword,
     Profile,
     ProfileForm,
     FileAddForm,
-    FileDetailPage
+    FileDetailPage,
+    UserIdPipe
   ],
   imports: [
     BrowserModule, HttpModule,
@@ -82,6 +90,8 @@ export const firebaseConfig = {
     Login, 
     Welcome,
     News,
+    NewsDetailPage,
+    NewsAddForm,
     ResetPassword,
     Profile,
     ProfileForm,
@@ -98,7 +108,8 @@ export const firebaseConfig = {
     AngularFireModule,
     DataService,
     FileManager,
-    UserManager
+    UserManager,
+    NewsManager
   ]
 })
 export class AppModule {}
