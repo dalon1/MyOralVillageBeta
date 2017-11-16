@@ -4,6 +4,7 @@ import { AuthService } from '../auth-service/auth-service';
 import { FirebaseApp } from 'angularfire2';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { IUser } from '../../models/IUser';
+import { IComment } from '../../models/IComment';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -39,6 +40,7 @@ export class FileManager {
         
         window.setTimeout(function() { }, 3000);
         // 2. modifying files properties to be stored
+        file.userId = this.authService.afAuth.auth.currentUser.uid;
         fileReference.getMetadata().then(function(metadata) {
             file.createdAt = metadata.createdAt;
             file.url = metadata.url;
@@ -65,6 +67,19 @@ export class FileManager {
     }
 
     deleteFile(id:string) {
-        //this.angularFireStore.collection('documents').
+        this.angularFireStore.collection('documents').doc(id).delete()
+        .then(() => console.log('Document deleted')).catch(error => console.log(error));
+    }
+
+    /**
+     * This will add a comment to the respective file.
+     * @param id 
+     * @param comment 
+     */
+    commentFile(id:String, comment: IComment) {
+        comment.userId = this.authService.afAuth.auth.currentUser.uid;
+        this.angularFireStore.doc(`documents/${id}`).update({
+            comments: comment
+        }).then(() => console.log('Comment added!')).catch(error => console.log(error));
     }
 }

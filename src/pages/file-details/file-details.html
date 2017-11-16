@@ -18,7 +18,7 @@
     </ion-item>
     <!-- Owner -->
     <ion-item text-wrap>
-      <ion-icon name="contact" item-left></ion-icon> Owner: {{ (selectedFile | async)?.owner }}
+      <ion-icon name="contact" item-left></ion-icon> Owner: {{ (((selectedFile | async)?.userId | userIdPipe ) | async)?.name }}
     </ion-item>
     <!-- Created At -->
     <ion-item text-wrap>
@@ -50,7 +50,24 @@
     <ion-item text-wrap>
       <ion-icon name="cube" item-left></ion-icon> Size: N/A
     </ion-item>
-   
+
+    <!-- Comments : this needs to be ngFor -->
+    <ion-item text-wrap>
+      <ion-icon name="cube" item-left></ion-icon> Comments: 
+      {{ (((selectedFile | async)?.comments?.userId | userIdPipe ) | async)?.name }} {{ (selectedFile | async)?.comments?.comment }}
+    </ion-item>
+
+    <!-- Comment Add Form : fix this-->
+    <form [formGroup]="commentForm" (ngSubmit)="commentFile(commentForm.value)">
+        <ion-item text-wrap>
+            <ion-label stacked>Comment</ion-label> 
+            <ion-textarea rows="4" placeholder="Add your comment" formControlName="comment"></ion-textarea>
+            <button ion-button type="submit" item-right color="secondary" [disabled]="!commentForm.valid">
+                    <ion-icon name="add" item-center></ion-icon>
+            </button>       
+          </ion-item>
+    </form>
+    
     <button ion-button full color="secondary" (click)="updateFile()">Update File</button>
     <button ion-button full color="primary" (click)="deleteFile()">Delete</button>
         

@@ -37,13 +37,9 @@ export class FileAddForm {
             // control 2 - description
             description: this.formBuilder.control(''),
             // control 3 - category
-            categories: this.formBuilder.control([], Validators.compose([
-                Validators.required
-            ])),
+            categories: this.formBuilder.control([], Validators.required),
             // control 4 - tags
-            tags: this.formBuilder.control([], Validators.compose([
-                Validators.required
-            ])),
+            tags: this.formBuilder.control([], Validators.required),
             // control 5 - visibility
             visibility: this.formBuilder.control('', Validators.compose([
                 
@@ -78,6 +74,10 @@ export class FileAddForm {
         }
     }
 
+    deleteTag(tag) {
+        this.deleteElement(this.tags, tag);
+    }
+
     addCategories(category) {
         if (typeof category === 'undefined') {
             return;
@@ -89,10 +89,19 @@ export class FileAddForm {
         }
     }
 
+    deleteCategory(category) {
+        this.deleteElement(this.categories, category);
+    }
+
     selectFileFromExplorer() {
         // this method selects opens the mobile's file explorer
     }
 
+    /**
+     * Check if element exists in the list to avoid duplicates.
+     * @param list 
+     * @param element 
+     */
     private isElementInList(list:string[], element:string) {
         for (var i = 0; i < list.length; i++) {
             if (list[i] === element) {
@@ -100,5 +109,17 @@ export class FileAddForm {
             }
         }
         return false;
+    }
+
+    /**
+     * Delete existing element from the respective list.
+     * @param list 
+     * @param element 
+     */
+    private deleteElement(list:string[], element: string) {
+        let index = list.indexOf(element);
+        if (index > -1) {
+            list.splice(index, 1);
+        }
     }
 }

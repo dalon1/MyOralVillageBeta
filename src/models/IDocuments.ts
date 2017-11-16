@@ -9,7 +9,9 @@ export interface IDocument {
     description:string;
     extension:string;
     country:ICountry;
-    owner:IUser; 
+    owner:IUser;
+    // this is just temporal
+    userId: string; 
     visibility:string;
     url:string;
     // categories:ICategory[];

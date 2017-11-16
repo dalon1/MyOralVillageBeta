@@ -32,7 +32,7 @@
             <!-- Description -->
             <ion-item>
                 <ion-label stacked>Description</ion-label>
-                <ion-input formControlName="description"></ion-input>
+                <ion-textarea formControlName="description" placeholder="Description about file" rows="4"></ion-textarea>
             </ion-item>
     
             <!-- Categories -->
@@ -44,9 +44,9 @@
                     </button>
             </ion-item>
             <ion-item text-wrap [hidden]="categories.length === 0">
-                    <ion-badge *ngFor="let category of categories" color="secondary">
-                            {{ category }}
-                        </ion-badge>    
+                        <button *ngFor="let category of categories" ion-button type="button" color="primary" (click)="deleteCategory(category)">
+                                <ion-icon name="close" item-right></ion-icon> {{ category }}
+                        </button>   
             </ion-item>
 
             <!-- Tags -->
@@ -58,9 +58,9 @@
                     </button>       
             </ion-item>
             <ion-item text-wrap [hidden]="tags.length === 0">
-                    <ion-badge *ngFor="let tag of tags" color="secondary">
-                            {{ tag }}
-                    </ion-badge>   
+                        <button *ngFor="let tag of tags" ion-button type="button" color="primary" (click)="deleteTag(tag)">
+                                <ion-icon name="close" item-right></ion-icon> {{ tag }}
+                        </button>   
             </ion-item>
 
             <!-- visibility -->
