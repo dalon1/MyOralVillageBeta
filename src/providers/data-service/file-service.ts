@@ -25,6 +25,36 @@ export class FileManager {
         return this.angularFireStore.collection<IDocument>('documents').valueChanges();
     }
 
+    /**
+     * TODO: Remove duplicates and sort
+     */
+    getCategories() : string[] {
+        let categories: string[] = [];
+        this.getFiles().subscribe(files => files.forEach(function(file) {
+            if (typeof file.categories != 'undefined' && file.categories instanceof Array) {
+                file.categories.forEach(category =>
+                    categories.push(category)
+                );
+            }
+        }));
+        return categories;
+    }
+
+    /**
+     * TODO: Remove duplicates and sort 
+     */
+    getTags() : string[] {
+        let tags: string[] = [];
+        this.getFiles().subscribe(files => files.forEach(function(file) {
+            if (typeof file.tags != 'undefined' && file.tags instanceof Array) {
+                file.tags.forEach(tag =>
+                    tags.push(tag)
+                );
+            }
+        }));
+        return tags;
+    }
+
     getFileById(id:string) : Observable<IDocument> {
         return this.angularFireStore.doc<IDocument>(`documents/${id}`).valueChanges();
     }

@@ -1,0 +1,34 @@
+<ion-header>
+    
+      <ion-navbar>
+        <ion-toolbar no-border-top color="primary" *ngIf="demo != 'Title'">
+          <ion-searchbar></ion-searchbar>
+        </ion-toolbar>
+      </ion-navbar>
+    
+    </ion-header>
+    
+    
+    <ion-content>
+      <ion-card *ngFor="let file of (files | async)">
+          <ion-card-header>
+              {{ file.title }}
+            </ion-card-header>
+            <ion-card-content>
+                {{ file.description }}
+                <br>
+                <ion-badge color="secondary">
+                    <!-- TODO check if this affects performance -->
+                    By: {{ ((file.userId | userIdPipe) | async)?.name }}
+                </ion-badge> 
+            </ion-card-content>
+      </ion-card>
+
+      <button *ngFor="let category of categories" ion-button type="button" color="primary" (click)="popo()">
+            <ion-icon name="close" item-right></ion-icon> {{ category }}
+    </button>   
+    <button *ngFor="let tag of tags" ion-button type="button" color="primary" (click)="popo()">
+            <ion-icon name="close" item-right></ion-icon> {{ tag }}
+    </button>   
+    </ion-content>
+    

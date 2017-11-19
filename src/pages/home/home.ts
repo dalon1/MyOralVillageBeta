@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, App } from 'ionic-angular';
 import { FileAddForm } from '../file-manage/file-add-form';
+import { FilesPage } from '../file-page/files-page';
 
 @Component({
   selector: 'page-home',
@@ -17,6 +18,10 @@ export class HomePage {
 
   goToDocumentAddFormPage() {
     this.app.getRootNav().push(FileAddForm);
+  }
+
+  goToAll() {
+    this.app.getRootNav().push(FilesPage);
   }
 
 }
