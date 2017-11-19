@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { App } from 'ionic-angular';
+import { App, AlertController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { IDocument } from '../../models/IDocuments';
 import { IComment } from '../../models/IComment';
@@ -18,7 +18,8 @@ export class FileDetailPage {
     constructor(
         private fileManager: FileManager,
         private formBuilder: FormBuilder,
-        private app: App
+        private app: App,
+        private alertController: AlertController
     ) {
         // TODO A better approach should be implemented here...
         if (typeof this.fileManager.fileId != 'undefined') {
@@ -39,7 +40,31 @@ export class FileDetailPage {
         this.fileManager.updateFile();
     }
 
-    deleteFile() {
+    showDeleteFileAlert() {
+        let confirm = this.alertController.create({
+            title: 'Deleting File',
+            message: 'Are you sure you want to delete this file?',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('cancel');
+                    }
+                },
+                {
+                    text: 'Delete',
+                    role: 'destructive',
+                    handler: ()=> {
+                        this.deleteFile();
+                    } 
+                }
+            ]
+        });
+        confirm.present();
+    }
+
+    private deleteFile() {
         // nothing yet
         if (typeof this.fileManager.fileId != 'undefined') {
             this.fileManager.deleteFile(this.fileManager.fileId);

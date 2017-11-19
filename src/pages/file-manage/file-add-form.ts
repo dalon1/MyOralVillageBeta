@@ -8,7 +8,7 @@ import { AngularFirestoreDocument, AngularFirestore } from 'angularfire2/firesto
 import { Validators, FormBuilder } from '@angular/forms';
 import { FileManager } from '../../providers/data-service/file-service';
 import { FileDetailPage } from '../file-details/file-details';
-import { App } from 'ionic-angular';
+import { App, ActionSheetController } from 'ionic-angular';
 
 @Component({
     selector: 'file-add-form',
@@ -23,7 +23,8 @@ export class FileAddForm {
     constructor(
         private app: App,
         private formBuilder: FormBuilder,
-        private fileManager: FileManager
+        private fileManager: FileManager,
+        private actionSheetController: ActionSheetController
     ) {
 
     }
@@ -121,5 +122,41 @@ export class FileAddForm {
         if (index > -1) {
             list.splice(index, 1);
         }
+    }
+
+    attachFile() {
+        let actionSheet = this.actionSheetController.create({
+            title: 'Upload File',
+            buttons: [
+                {
+                    text: 'Open File Explorer',
+                    handler: () => {
+                        console.log('Open File Explorer');
+                    }
+
+                },
+                {
+                    text: 'Open Gallery',
+                    handler: () => {
+                        console.log('Open Gallery');
+                    }
+
+                },
+                {
+                    text: 'Open Camera',
+                    handler: () => {
+                        console.log('Open Camera');
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('cancel');
+                    }
+                }
+            ]
+        });
+        actionSheet.present();
     }
 }

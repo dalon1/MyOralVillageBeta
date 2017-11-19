@@ -16,15 +16,19 @@
 
 
 <ion-content>
-  <ion-item *ngFor="let new of (news | async)" text-wrap>
-    <p><strong>{{ new.title }}</strong></p>
-    <p>{{ new.content }}</p>
-    <p>{{ new.url }}</p>
-    <ion-badge color="secondary">
-        <!-- TODO check if this affects performance -->
-        By: {{ ((new.userId | userIdPipe) | async)?.name }}
-    </ion-badge>    
-  </ion-item>
+  <ion-card *ngFor="let new of (news | async)">
+      <ion-card-header>
+          {{ new.title }}
+        </ion-card-header>
+        <ion-card-content>
+            {{ new.content }}
+            <br>
+            <ion-badge color="secondary">
+                <!-- TODO check if this affects performance -->
+                By: {{ ((new.userId | userIdPipe) | async)?.name }}
+            </ion-badge> 
+        </ion-card-content>
+  </ion-card>
     <button ion-button block color="primary" full (click)="goToNewAddFormPage()">
         <ion-icon name="add" item-center></ion-icon>
       </button>

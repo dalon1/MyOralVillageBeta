@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
-import { App } from 'ionic-angular';
+import { App, ActionSheetController } from 'ionic-angular';
 import { Profile } from './profile';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { UserManager } from '../../providers/data-service/user-service';
@@ -18,7 +18,8 @@ export class ProfileForm {
         private auth: AuthService,
         private formBuilder : FormBuilder,
         private app: App,
-        private userManager: UserManager
+        private userManager: UserManager,
+        private actionSheetController: ActionSheetController
     ) {}
 
     ngOnInit() {
@@ -36,6 +37,35 @@ export class ProfileForm {
     submitUpdate(profile) {
         this.userManager.updateProfile(this.auth.afAuth.auth.currentUser.uid, profile.description, profile.country);
         this.app.getRootNav().push(Profile);
+    }
+
+    uploadPicture() {
+        let actionSheet = this.actionSheetController.create({
+            title: 'Profile Picture',
+            buttons: [
+                {
+                    text: 'Open Camera',
+                    handler: () => {
+                        console.log('Open Camera');
+                    }
+
+                },
+                {
+                    text: 'Open Gallery',
+                    handler: () => {
+                        console.log('Open Gallery');
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('cancel');
+                    }
+                }
+            ]
+        });
+        actionSheet.present();
     }
 
 }
