@@ -1,5 +1,6 @@
 import { IUser } from "./IUser";
 import { ICountry } from "./ICountry";
+import { IComment } from './IComment';
 
 export interface IDocument {
     id: string,
@@ -18,4 +19,5 @@ export interface IDocument {
     // tags: ITag[];
     categories:string[];
     tags: string[];
+    comments: IComment[];
 }

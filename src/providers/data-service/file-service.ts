@@ -55,6 +55,23 @@ export class FileManager {
         return tags;
     }
 
+    /**
+     * TODO: Sort by date (createdAt)!
+     * @param id 
+     */
+    getComments(id: string) : IComment[] {
+        let comments: IComment[] = [];
+        this.getFileById(id).subscribe(file => {
+            if (typeof file.comments != 'undefined' && file.comments instanceof Array) {
+                file.comments.forEach(comment => {
+                    console.log(comment);
+                    comments.push(comment);
+                });
+            }
+        });
+        return comments;
+    }
+
     getFileById(id:string) : Observable<IDocument> {
         return this.angularFireStore.doc<IDocument>(`documents/${id}`).valueChanges();
     }
@@ -106,10 +123,13 @@ export class FileManager {
      * @param id 
      * @param comment 
      */
-    commentFile(id:String, comment: IComment) {
+    commentFile(id:string, comment: IComment) {
+        let comments: IComment[] = this.getComments(id);
         comment.userId = this.authService.afAuth.auth.currentUser.uid;
+        // Add current date to comment here>>>
+        comments.push(comment);
         this.angularFireStore.doc(`documents/${id}`).update({
-            comments: comment
+            comments: comments
         }).then(() => console.log('Comment added!')).catch(error => console.log(error));
     }
 }

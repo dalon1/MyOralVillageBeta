@@ -13,6 +13,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ProfileForm {
     profileForm;
+    profile: Observable<IUser>;
 
     constructor(
         private auth: AuthService,
@@ -23,7 +24,7 @@ export class ProfileForm {
     ) {}
 
     ngOnInit() {
-        //let profile = this.userManager.getProfileById(this.auth.afAuth.auth.currentUser.uid);
+        this.profile = this.userManager.getProfileById(this.auth.afAuth.auth.currentUser.uid);
         this.profileForm = this.formBuilder.group(
             {
                 // control 2 - description

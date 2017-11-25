@@ -11,8 +11,8 @@
     
     <ion-content>
       <ion-card *ngFor="let file of (files | async)">
-          <ion-card-header>
-              {{ file.title }}
+          <ion-card-header >
+            <ion-icon *ngIf="file?.visibility === 'PUBLIC'" name="unlock" item-left></ion-icon><ion-icon *ngIf="file?.visibility === 'PRIVATE'" name="lock" item-left></ion-icon> {{ file.title }}
             </ion-card-header>
             <ion-card-content>
                 {{ file.description }}

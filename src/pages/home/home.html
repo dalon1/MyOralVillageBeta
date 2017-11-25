@@ -16,10 +16,12 @@
   <p>
     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae aperiam adipisci, quisquam neque quas molestiae natus non autem enim distinctio iste officiis quasi odit iusto veritatis inventore sequi assumenda sit!
   </p>
-    <button ion-button block color="primary" (click)="goToDocumentAddFormPage()">
-      <ion-icon name="add" item-center></ion-icon>
-    </button>
-    <button ion-button block color="primary" (click)="goToAll()">
-      ALL (TEMP)
-    </button>
+    <ion-fab bottom right>
+      <button ion-fab mini><ion-icon name="add"></ion-icon></button>
+      <ion-fab-list side="top">
+        <button ion-fab (click)="goToDocumentAddFormPage()"><ion-icon name="document"></ion-icon></button>
+        <button ion-fab (click)="goToAll()">ALL</button>
+        <button ion-fab><ion-icon name="chatbubbles"></ion-icon></button>
+      </ion-fab-list>
+    </ion-fab>
 </ion-content>

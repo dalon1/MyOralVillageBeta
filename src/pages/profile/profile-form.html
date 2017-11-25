@@ -25,13 +25,13 @@
         <!-- Description -->
         <ion-item text-wrap>
             <ion-label stacked>About Me</ion-label>
-            <ion-textarea formControlName="description" placeholder="Description about me" rows="4"></ion-textarea>
+            <ion-textarea formControlName="description" placeholder="Description about me" rows="4" value="{{(profile | async)?.description}}"></ion-textarea>
         </ion-item>
 
         <!-- Country -->
         <ion-item text-wrap>
             <ion-label stacked>Country</ion-label>
-            <ion-input formControlName="country"></ion-input>
+            <ion-input formControlName="country" value="{{(profile | async)?.country}}"></ion-input>
         </ion-item>
 
         <button ion-button full color="primary" type="submit">Update</button>

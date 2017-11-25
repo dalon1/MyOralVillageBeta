@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { App, AlertController } from 'ionic-angular';
+import { App, AlertController, ToastController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { IDocument } from '../../models/IDocuments';
 import { IComment } from '../../models/IComment';
@@ -19,7 +19,8 @@ export class FileDetailPage {
         private fileManager: FileManager,
         private formBuilder: FormBuilder,
         private app: App,
-        private alertController: AlertController
+        private alertController: AlertController,
+        private toastController: ToastController
     ) {
         // TODO A better approach should be implemented here...
         if (typeof this.fileManager.fileId != 'undefined') {
@@ -78,7 +79,17 @@ export class FileDetailPage {
     commentFile(comment: IComment) {
         if (typeof this.fileManager.fileId != 'undefined') {
             this.fileManager.commentFile(this.fileManager.fileId, comment);
+            this.showCommentMessage();
         }
+    }
+
+    private showCommentMessage() {
+        let toast = this.toastController.create({
+            message: 'Your comment was added!',
+            duration: 3000,
+            position: 'bottom'
+        });
+        toast.present();
     }
 
 }
