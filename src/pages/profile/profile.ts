@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { App, NavController, NavParams } from 'ionic-angular';
+import { App, NavController, NavParams, ModalController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { Welcome } from '../welcome/welcome';
 import { Signup } from '../signup/signup';
@@ -30,6 +30,7 @@ export class Profile {
   private picturePath: string;
 
   constructor(public navCtrl: NavController,
+    private modalController: ModalController,
     private auth: AuthService,
     private userManager: UserManager,
     private app: App,
@@ -57,7 +58,8 @@ export class Profile {
   * Method to update user's profile
   */
   updateProfile() {
-    this.app.getRootNav().push(ProfileForm);
+    //this.app.getRootNav().push(ProfileForm);
+    this.modalController.create(ProfileForm).present();
   }
 
   signUpFromGuestPage() {

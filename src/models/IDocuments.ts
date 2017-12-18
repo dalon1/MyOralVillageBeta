@@ -4,9 +4,10 @@ import { IComment } from './IComment';
 
 export interface IDocument {
     id: string,
+    file: File;
     title: string;
-    createdAt: string;
-    modifiedAt:string;
+    createdAt: Date;
+    modifiedAt:Date;
     description:string;
     extension:string;
     country:ICountry;

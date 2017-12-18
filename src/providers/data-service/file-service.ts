@@ -6,6 +6,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { IUser } from '../../models/IUser';
 import { IComment } from '../../models/IComment';
 import { Observable } from 'rxjs/Observable';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class FileManager {
@@ -15,7 +16,8 @@ export class FileManager {
     constructor(
         private authService: AuthService,
         private fireBaseApp: FirebaseApp,
-        private angularFireStore: AngularFirestore
+        private angularFireStore: AngularFirestore//,
+        //private uploadTask: firebase.storage.UploadTask
     ) {
         this.user = angularFireStore.doc<IUser>(`users/${authService.afAuth.auth.currentUser.uid}`).valueChanges();
         // nothing yet here
@@ -79,11 +81,16 @@ export class FileManager {
     addFile(file: IDocument) {
         // 1. storing file to firebase
         // TODO add the full path of the file
-        let filePath = 'files/nothing.txt';
-        let fileReference =this.fireBaseApp.storage().ref().child(filePath);
+        let filePath = '/Users/AloniD/move_ws/ionic_ws/MyOralVillageApp/src/providers/data-service/nothing.txt';
+        let storagePath = 'files/obama.txt';
+        let file1:File = new File([""], 'obama.txt', {type: 'text/plain'});
+        //let storageReference = this.fireBaseApp.storage().ref(); -- * --
+        //this.uploadTask = storageReference.child(filePath).put(null); -- * --
         
-        fileReference.putString(filePath).then(() => console.log('file uploaded to firebase!')).catch(error => console.log(error));
-        //fileReference.getDownloadURL().then(url => file.url = url).catch(error => console.log(error)); // not needed!
+        let fileReference = this.fireBaseApp.storage().ref().child(storagePath);
+        fileReference.put(file1).then(()=> console.log('Actual file uploaded')).catch(error => console.log(error));
+        fileReference.putString('barack obama');
+        fileReference.getDownloadURL().then(url => file.url = url).catch(error => console.log(error)); // not needed!
         
         window.setTimeout(function() { }, 3000);
         // 2. modifying files properties to be stored
@@ -95,7 +102,10 @@ export class FileManager {
             file.modifiedAt = metadata.modifiedAt;
             console.log(file);
         }).catch(error => console.log(error));
+        //file.name = this.uploadTask.snapshot.-- * --
         file.visibility = file.visibility ? "PRIVATE" : "PUBLIC";
+        file.createdAt = new Date();
+        file.modifiedAt = new Date();
 
         // 3. storing file's information to fire store
         let id = this.angularFireStore.createId();

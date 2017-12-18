@@ -10,6 +10,9 @@
     
     
     <ion-content>
+      <ion-item>
+        <h1>Files</h1>
+      </ion-item>
       <ion-card *ngFor="let file of (files | async)">
           <ion-card-header >
             <ion-icon *ngIf="file?.visibility === 'PUBLIC'" name="unlock" item-left></ion-icon><ion-icon *ngIf="file?.visibility === 'PRIVATE'" name="lock" item-left></ion-icon> {{ file.title }}
@@ -23,12 +26,17 @@
                 </ion-badge> 
             </ion-card-content>
       </ion-card>
-
+      <ion-item>
+        <h1>Categories</h1>
+      </ion-item>
       <button *ngFor="let category of categories" ion-button type="button" color="primary" (click)="popo()">
-            <ion-icon name="close" item-right></ion-icon> {{ category }}
-    </button>   
+            {{ category }}
+    </button>
+    <ion-item>
+      <h1>Tags</h1>
+    </ion-item>   
     <button *ngFor="let tag of tags" ion-button type="button" color="primary" (click)="popo()">
-            <ion-icon name="close" item-right></ion-icon> {{ tag }}
+            {{ tag }}
     </button>   
     </ion-content>
     
