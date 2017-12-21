@@ -7,6 +7,10 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { Camera } from '@ionic-native/camera';
+
 import { MainApp } from './app.component';
 
 import { HttpModule } from "@angular/http";
@@ -27,6 +31,7 @@ import { ProfileForm } from '../pages/profile/profile-form';
 import { FilesPage } from '../pages/file-page/files-page';
 import { FileAddForm } from '../pages/file-manage/file-add-form';
 import { FileDetailPage } from '../pages/file-details/file-details';
+import { FileUpload } from '../pages/file-upload/file-upload';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -70,7 +75,8 @@ export const firebaseConfig = {
     FileAddForm,
     FilesPage,
     FileDetailPage,
-    UserIdPipe
+    UserIdPipe,
+    FileUpload
   ],
   imports: [
     BrowserModule, HttpModule,
@@ -99,7 +105,8 @@ export const firebaseConfig = {
     ProfileForm,
     FileAddForm,
     FilesPage,
-    FileDetailPage
+    FileDetailPage,
+    FileUpload
   ],
   providers: [
     StatusBar,

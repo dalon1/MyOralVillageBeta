@@ -8,15 +8,57 @@
   
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to My Oral Village!</h2>
-  <p>
-    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores, maxime. Sed quibusdam reiciendis voluptate, unde nesciunt, molestias aut odio at ducimus quos fugit dicta. Sed molestiae harum eligendi quisquam temporibus.
-  </p>
-  <p>
-    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae aperiam adipisci, quisquam neque quas molestiae natus non autem enim distinctio iste officiis quasi odit iusto veritatis inventore sequi assumenda sit!
-  </p>
-    <ion-fab bottom right>
+<ion-content>
+  <ion-card *ngFor="let model of documentList">
+    <ion-item>
+       <ion-avatar item-left>     
+         <img [src]="model.user.avatarUrl" />
+       </ion-avatar>
+       <h2>{{model.user.name}}</h2>
+       <p>{{model.document.modifiedAt | date: 'longDate'}}</p>   
+    </ion-item>
+  
+     <div *ngIf="model.document.extension">
+      <img *ngIf="model.document.extension == 'jpg'" [src]="model.document.url" />
+    </div>
+    <div *ngIf="!model.document.extension">
+      <img  src="http://placehold.it/500x200" />
+    </div>
+
+    <ion-card-content>
+      <ion-label class="document-title">
+          <ion-icon *ngIf="model.document?.visibility === 'PUBLIC'" name="unlock" item-left></ion-icon><ion-icon *ngIf="model.document?.visibility === 'PRIVATE'" name="lock" item-left></ion-icon>
+        {{ model.document.title }}</ion-label>
+      <ion-label class="document-description ">{{ model.document.description }} </ion-label>    
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>12 Likes</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="text"></ion-icon>
+          <div *ngIf="model.document.comments">{{model.document.comments?.length}} Comments</div>
+          <div *ngIf="!model.document.comments">0 Comments</div>
+        </button>
+      </ion-col>
+      <ion-col center text-center>
+          <!--<ion-note>
+              {{model.document.modifiedAt | amTimeAgo}}
+          </ion-note>-->
+        <ion-note>
+          {{model.document.modifiedAt | date: 'shortDate' }}
+        </ion-note>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+
+    <ion-fab bottom right *ngIf="canUploadFiles">
       <button ion-fab mini><ion-icon name="add"></ion-icon></button>
       <ion-fab-list side="top">
         <button ion-fab (click)="goToDocumentAddFormPage()"><ion-icon name="document"></ion-icon></button>

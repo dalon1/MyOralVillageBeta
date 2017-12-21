@@ -3,7 +3,8 @@ import { Role } from "./Role";
 
 export interface IUser {
     name: string, 
-    email:string,
+    email:string,  
+    avatarUrl?:string, 
     description:string,
     country?: ICountry;
     role:Role;

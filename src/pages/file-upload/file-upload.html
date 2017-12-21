@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            <ion-icon name="cloud-upload" item-left></ion-icon> Upload File
+        </ion-title>
+      <!-- <ion-toolbar no-border-top color="primary" *ngIf="demo != 'Title'">
+            <ion-searchbar></ion-searchbar>
+        </ion-toolbar> -->
+   </ion-navbar>
+  </ion-header>
+  
+  <ion-content>
+   <!-- The "Upload File" button in Android. The File Input element is jus hidden and the button calls the its .click() method -->
+   <div *ngIf="!isIOS">
+    <ion-row class="buttons-row">
+      <ion-col class="buttons-col">
+        <button ion-button full small icon-left class="top-button" (click)="fileInput.click()">
+          <ion-icon name="folder"></ion-icon>
+          Upload File
+        </button>
+      </ion-col>
+    </ion-row>
+    <div hidden><input type="file" id="fileUpload" #fileInput (change)="onFileFromStorageChosen($event)" /></div>
+  </div>
+  
+  <!-- The "Upload File" button in iOS. The File Input element displayed as transparent and overlayed on top of the button -->
+  <div *ngIf="isIOS">
+    <ion-row class="buttons-row">
+      <ion-col class="buttons-col">
+        <input type="file" id="fileUpload" class="ios-file-input" (change)="onFileFromStorageChosen($event)" />
+        <button ion-button full small icon-left class="top-button">
+          <ion-icon name="folder"></ion-icon>
+          Upload File
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  </ion-content>

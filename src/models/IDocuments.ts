@@ -16,8 +16,6 @@ export interface IDocument {
     userId: string; 
     visibility:string;
     url:string;
-    // categories:ICategory[];
-    // tags: ITag[];
     categories:string[];
     tags: string[];
     comments: IComment[];
