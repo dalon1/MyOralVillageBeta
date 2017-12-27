@@ -12,31 +12,115 @@
     <ion-content>
       <ion-item>
         <h1>Files</h1>
+        <button ion-button round outline type="button" item-right>
+          All >>
+        </button>
       </ion-item>
-      <ion-card *ngFor="let file of (files | async)">
-          <ion-card-header >
-            <ion-icon *ngIf="file?.visibility === 'PUBLIC'" name="unlock" item-left></ion-icon><ion-icon *ngIf="file?.visibility === 'PRIVATE'" name="lock" item-left></ion-icon> {{ file.title }}
-            </ion-card-header>
-            <ion-card-content>
-                {{ file.description }}
-                <br>
-                <ion-badge color="secondary">
-                    <!-- TODO check if this affects performance -->
-                    By: {{ ((file.userId | userIdPipe) | async)?.name }}
-                </ion-badge> 
-            </ion-card-content>
+      <ion-card *ngFor="let model of documentList">
+        <ion-item>
+           <ion-avatar item-left>     
+             <img [src]="model.user.avatarUrl" />
+           </ion-avatar>
+           <h2>{{model.user.name}}</h2>
+           <p>{{model.document.modifiedAt | date: 'longDate'}}</p>   
+        </ion-item>
+      
+         <div *ngIf="model.document.extension">
+          <img *ngIf="model.document.extension == 'jpg'" [src]="model.document.url" />
+        </div>
+        <div *ngIf="!model.document.extension">
+          <img  src="http://placehold.it/500x200" />
+        </div>
+    
+        <ion-card-content>
+          <ion-label class="document-title">
+              <ion-icon *ngIf="model.document?.visibility === 'PUBLIC'" name="unlock" item-left></ion-icon><ion-icon *ngIf="model.document?.visibility === 'PRIVATE'" name="lock" item-left></ion-icon>
+            {{ model.document.title }}</ion-label>
+          <ion-label class="document-description ">{{ model.document.description }} </ion-label>    
+        </ion-card-content>
+    
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="thumbs-up"></ion-icon>
+              <div>12 Likes</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="text"></ion-icon>
+              <div *ngIf="model.document.comments">{{model.document.comments?.length}} Comments</div>
+              <div *ngIf="!model.document.comments">0 Comments</div>
+            </button>
+          </ion-col>
+          <ion-col center text-center>
+              <!--<ion-note>
+                  {{model.document.modifiedAt | amTimeAgo}}
+              </ion-note>-->
+            <ion-note>
+              {{model.document.modifiedAt | date: 'shortDate' }}
+            </ion-note>
+          </ion-col>
+        </ion-row>
+    
       </ion-card>
+
+      <div text-center>
+        <h5>{{ documentList.length }} Files</h5>
+      </div>
+       
+
+      <ion-item>
+        <h1>Profiles</h1>
+        <button ion-button round outline type="button" item-right>
+          All >>
+        </button>
+      </ion-item>
+
+      <ion-card *ngFor="let user of (users | async)">
+          <ion-item>
+              <ion-avatar item-left>     
+                <img src='https://avatars.io/static/default_128.jpg' />
+              </ion-avatar>
+              <h2>{{ user?.name}}</h2>
+              <p>{{ user?.role }}</p>   
+           </ion-item>
+           <!--<ion-card-content *ngIf="user?.description">
+             <p>{{ user?.description }}</p>
+           </ion-card-content>-->
+      </ion-card>
+
+      <div text-center>
+        <h5>{{ (users | async)?.length }} Profiles</h5>
+      </div>
+
       <ion-item>
         <h1>Categories</h1>
+        <button ion-button round outline type="button" item-right>
+          All >>
+        </button>
       </ion-item>
-      <button *ngFor="let category of categories" ion-button type="button" color="primary" (click)="popo()">
-            {{ category }}
+      <button *ngFor="let category of categories" ion-button round outline type="button" color="primary">
+            {{ category?.name }}&nbsp;&nbsp;<ion-badge color="primary">{{ category?.numOfOccurrence }}</ion-badge>
     </button>
+
+    <div text-center>
+      <h5>{{ categories?.length }} Categories</h5>
+    </div>
+
     <ion-item>
       <h1>Tags</h1>
+      <button ion-button round outline type="button" item-right>
+        All >>
+      </button>
     </ion-item>   
-    <button *ngFor="let tag of tags" ion-button type="button" color="primary" (click)="popo()">
-            {{ tag }}
-    </button>   
+    <button *ngFor="let tag of tags" ion-button round outline type="button" color="primary">
+            {{ tag?.name }}&nbsp;&nbsp;<ion-badge color="primary">{{ tag?.numOfOccurrence }}</ion-badge>
+    </button>  
+    
+    <div text-center>
+      <h5>{{ tags?.length }} Tags</h5>
+    </div>
+    <br>
     </ion-content>
     

@@ -42,6 +42,10 @@ export class HomePage {
     this.app.getRootNav().push(FilesPage);
   }
 
+  tempAddFile() {
+    this.app.getRootNav().push(FileUpload);
+  }
+
   setUploadVisible(){    
     if(this.authManager.afAuth.auth.currentUser == null){
       this.canUploadFiles = false;
@@ -58,7 +62,9 @@ export class HomePage {
     this.fileManager.getFiles().subscribe((data : Array<IDocument>) => {
       data.forEach( (doc: IDocument) => {                    
         let user = this.userManager.getProfileById(doc.userId).subscribe((user:IUser) => {     
-            user.avatarUrl = user.avatarUrl == null ? 'https://avatars.io/static/default_128.jpg' : user.avatarUrl;    
+          // this avatar URL is making exceptions
+            //user.avatarUrl = user.avatarUrl == null || user.avatarUrl == '' ? 'https://avatars.io/static/default_128.jpg' : user.avatarUrl;
+            user.avatarUrl = 'https://avatars.io/static/default_128.jpg';    
             doc.modifiedAt = doc.modifiedAt == null || doc.modifiedAt.toString() == '' ? new Date('2017-01-01') : doc.modifiedAt;            
             
             let model = new FeedViewModel(doc,user);

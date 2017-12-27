@@ -5,7 +5,10 @@ import { IComment } from './IComment';
 export interface IDocument {
     id: string,
     file: File;
-    title: string;
+    name: string; // actual name of the file
+    size: number;
+    type: string;
+    title: string; // given name by user 
     createdAt: Date;
     modifiedAt:Date;
     description:string;

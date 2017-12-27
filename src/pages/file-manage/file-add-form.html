@@ -19,7 +19,21 @@
                     <button ion-button type="button" item-right color="primary" (click)="attachFile()">
                             <ion-icon name="attach" item-right></ion-icon> Attach
                     </button>
+                    <div hidden><input type="file" id="fileUploadInput" #fileInput (change)="onFileFromStorageChosen($event)" /></div>
             </ion-item>
+            
+                <ion-card *ngIf="selectedFile">
+                        <ion-item>
+                            <ion-avatar item-left>     
+                                <h1><ion-icon name="document" item-right icon-size></ion-icon></h1>
+                            </ion-avatar>
+                        <h5>{{ selectedFile?.name }}</h5>
+                        <p>{{ selectedFile?.type }}</p>
+                        <p>{{ selectedFile?.size }}</p>
+                    </ion-item>
+                                           
+                </ion-card>
+                    
             <!-- Name -->
             <ion-item>
                 <ion-label stacked>Title</ion-label>

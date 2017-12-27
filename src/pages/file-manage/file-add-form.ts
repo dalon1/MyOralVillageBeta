@@ -9,6 +9,7 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { FileManager } from '../../providers/data-service/file-service';
 import { FileDetailPage } from '../file-details/file-details';
 import { App, ActionSheetController } from 'ionic-angular';
+import { formGroupNameProvider } from '@angular/forms/src/directives/reactive_directives/form_group_name';
 
 @Component({
     selector: 'file-add-form',
@@ -16,7 +17,7 @@ import { App, ActionSheetController } from 'ionic-angular';
 })
 export class FileAddForm {
     private fileForm;
-    private document: IDocument;
+    private selectedFile: File;
     private tags: string[] = [];
     private categories: string[] = [];
 
@@ -45,6 +46,9 @@ export class FileAddForm {
             visibility: this.formBuilder.control('', Validators.compose([
                 
             ])),
+            name: '',
+            size: '',
+            type: '',
             owner: '',
             createdAt: '',
             modifiedAt: '',
@@ -60,6 +64,14 @@ export class FileAddForm {
         if (this.tags.length != 0) {
             formInput.tags = this.tags;
         }
+        if (typeof this.selectedFile != 'undefined') {
+            formInput.file = this.selectedFile;
+            formInput.name = this.selectedFile.name;
+            formInput.size = this.selectedFile.size;
+            formInput.type = this.selectedFile.type;
+        }
+
+        console.log(formInput);
         this.fileManager.addFile(formInput);
         this.app.getRootNav().push(FileDetailPage);
     }
@@ -124,6 +136,41 @@ export class FileAddForm {
         }
     }
 
+    /**
+     * 
+     * @param filesEvent 
+     */
+    public onFileFromStorageChosen(filesEvent: any) {
+        this.processFileFromStorage(filesEvent);
+    }
+
+    /**
+     * 
+     * @param event 
+     */
+    public processFileFromStorage(event: any) {
+        let file = event.target.files[0];
+        this.selectedFile = file;
+        //you can read various properties of the file (like mimetype and size) from the file object.
+        
+        this.readfile(file);
+    }
+    
+
+    /**
+     * This one reads the contents of the file as a URL that contains its data:
+     * @param file
+     */
+    readfile(file: any): void {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+        let dataUrl = reader.result;
+        //and do something with the reader.
+        console.log(reader);
+        };
+        reader.readAsDataURL(file);
+    }
+
     attachFile() {
         let actionSheet = this.actionSheetController.create({
             title: 'Upload File',
@@ -132,6 +179,7 @@ export class FileAddForm {
                     text: 'Open File Explorer',
                     handler: () => {
                         console.log('Open File Explorer');
+                        document.getElementById('fileUploadInput').click();
                     }
 
                 },
@@ -141,12 +189,6 @@ export class FileAddForm {
                         console.log('Open Gallery');
                     }
 
-                },
-                {
-                    text: 'Open Camera',
-                    handler: () => {
-                        console.log('Open Camera');
-                    }
                 },
                 {
                     text: 'Cancel',

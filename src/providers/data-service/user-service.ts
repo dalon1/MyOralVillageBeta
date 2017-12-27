@@ -18,8 +18,8 @@ export class UserManager {
         private angularFireStore: AngularFirestore
     ) {}
 
-    getProfiles() {
-        
+    getProfiles()  : Observable<IUser[]> {
+        return this.angularFireStore.collection<IUser>('users').valueChanges();
     }
 
     // Why the Promise<Observable<IUser>> not working? Asking for a then()

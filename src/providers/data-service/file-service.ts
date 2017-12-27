@@ -5,8 +5,8 @@ import { FirebaseApp } from 'angularfire2';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { IUser } from '../../models/IUser';
 import { IComment } from '../../models/IComment';
+import { Element } from '../../models/Element';
 import { Observable } from 'rxjs/Observable';
-import * as firebase from 'firebase';
 
 @Injectable()
 export class FileManager {
@@ -30,31 +30,48 @@ export class FileManager {
     /**
      * TODO: Remove duplicates and sort
      */
-    getCategories() : string[] {
-        let categories: string[] = [];
+    getCategories() : Element[] {
+        
+        let categories: Element[] = [];
         this.getFiles().subscribe(files => files.forEach(function(file) {
             if (typeof file.categories != 'undefined' && file.categories instanceof Array) {
                 file.categories.forEach(category =>
-                    categories.push(category)
+                    {
+                        
+                        categories.push(new Element(category));
+                    }
                 );
             }
         }));
+        
+        console.log(categories);
+        /**
+         * IMPORTANT:This is printing 0 instead of the actual length of the array due to timing issues.
+         */
+        console.log(categories.length);
         return categories;
+        //return this.createElementList(categories, limit);
     }
 
     /**
      * TODO: Remove duplicates and sort 
      */
-    getTags() : string[] {
-        let tags: string[] = [];
+    getTags() : Element[] {
+        let tags: Element[] = [];
         this.getFiles().subscribe(files => files.forEach(function(file) {
             if (typeof file.tags != 'undefined' && file.tags instanceof Array) {
                 file.tags.forEach(tag =>
-                    tags.push(tag)
+                    {
+                        let tempTag: Element = new Element(tag);
+                        tags.push(tempTag);
+                    }
                 );
             }
         }));
+        // TODO modify list before being returned
+        console.log(tags);
         return tags;
+        //return this.checkingOccurrences(tags);
     }
 
     /**
@@ -81,21 +98,18 @@ export class FileManager {
     addFile(file: IDocument) {
         // 1. storing file to firebase
         // TODO add the full path of the file
-        let filePath = '/Users/AloniD/move_ws/ionic_ws/MyOralVillageApp/src/providers/data-service/nothing.txt';
-        let storagePath = 'files/obama.txt';
-        let file1:File = new File([""], 'obama.txt', {type: 'text/plain'});
+        let storagePath = `files/${file.name}`;
         //let storageReference = this.fireBaseApp.storage().ref(); -- * --
         //this.uploadTask = storageReference.child(filePath).put(null); -- * --
         
-        let fileReference = this.fireBaseApp.storage().ref().child(storagePath);
-        fileReference.put(file1).then(()=> console.log('Actual file uploaded')).catch(error => console.log(error));
-        fileReference.putString('barack obama');
-        fileReference.getDownloadURL().then(url => file.url = url).catch(error => console.log(error)); // not needed!
+        let storageReference = this.fireBaseApp.storage().ref().child(storagePath);
+        storageReference.put(file.file).then(()=> console.log('Actual file uploaded')).catch(error => console.log("DANNEL" + error));
+        storageReference.getDownloadURL().then(url => file.url = url).catch(error => console.log(error)); // not needed!
         
-        window.setTimeout(function() { }, 3000);
         // 2. modifying files properties to be stored
         file.userId = this.authService.afAuth.auth.currentUser.uid;
-        fileReference.getMetadata().then(function(metadata) {
+        storageReference.getMetadata().then(function(metadata) {
+            console.log(metadata);
             file.createdAt = metadata.createdAt;
             file.url = metadata.url;
             file.owner = metadata.user;
@@ -104,11 +118,12 @@ export class FileManager {
         }).catch(error => console.log(error));
         //file.name = this.uploadTask.snapshot.-- * --
         file.visibility = file.visibility ? "PRIVATE" : "PUBLIC";
-        file.createdAt = new Date();
-        file.modifiedAt = new Date();
+        //file.createdAt = new Date();
+        //file.modifiedAt = new Date();
 
         // 3. storing file's information to fire store
         let id = this.angularFireStore.createId();
+        file.file = null;
         this.angularFireStore.collection('documents').doc(id).set(file)
         .then(function(document){
             console.log('success!');
@@ -142,4 +157,78 @@ export class FileManager {
             comments: comments
         }).then(() => console.log('Comment added!')).catch(error => console.log(error));
     }
+
+    /**
+     * NOTE: There are currently three (3) loops implemented in this method;
+     * The first loop goes through all elements of the old list.
+     * The second loop checks if the element has been stored in the new list.
+     * The third loop counts all occurrences of an element and saves it in the new list.
+     * To make the loop faster, elements will be removed from the old list once they are found.
+     * @param oldList 
+     */
+    /*private checkingOccurrences(oldList: Element[]) : Element[] {
+        var newList: Element[] = [];
+        window.console.log(oldList);
+        for (var j = 0; j < oldList.length; j++) {
+            let element: Element = oldList[j];
+            if (!this.isElementInList(newList, element)) {
+                for (var i = 0; i < oldList.length; i++) {
+                    if (oldList[i].name === element.name) {
+                        element.numOfOccurrence += 1;
+                        // TODO implement remove here
+                    }
+                }
+                window.console.log(element);
+                newList.push(element);
+            }
+        }
+        return newList;
+    }*/
+
+    createElementList(list: string[]) : Element[] {
+        let newList : Element[] = [];
+        //for (var i = 0; i < limit; i++) {
+        for (var i = 0; i < list.length; i++) {
+            if (this.isElementInList(newList, list[i])) {
+                console.log("TRUE");
+                continue;
+            }
+            console.log("FALSE");
+            newList.push(this.countOccurrences(list, list[i]));
+        }
+        console.log(list);
+        console.log(newList);
+        return newList;
+    }
+
+    private countOccurrences(list: string[], value: string) : Element {
+        let element: Element = new Element(value);
+        for (var i = 0; i < list.length; i++) {
+            if (list[i] === element.name) {
+                element.numOfOccurrence++;
+            }
+        }
+        return element;
+    }
+
+    private isElementInList(list: Element[], element: string): boolean {
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].name === element) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private deleteElement(list:Element[], element: Element) {
+        let index = list.indexOf(element);
+        if (index > 1) {
+            list.splice(index, 1);
+        }
+    }
+
+    private count(arr) {
+        return arr.reduce((prev, curr) => (prev[curr] = ++prev[curr] || 1, prev), {})
+      }
+      
 }

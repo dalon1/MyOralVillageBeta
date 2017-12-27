@@ -1,3 +1,14 @@
 file-add-form {
-    // nothing yet
+    .success-file {
+        border-color: red !important;
+        background: green !important;
+        color: blue !important;
+    }
+    .ion-item {
+        background-color: transparent;
+    }
+    .icon-size {
+        height: 50px;
+        width: 50px;
+    }
 }
