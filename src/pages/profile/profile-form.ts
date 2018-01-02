@@ -4,7 +4,9 @@ import { App, ActionSheetController, ViewController } from 'ionic-angular';
 import { Profile } from './profile';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { UserManager } from '../../providers/data-service/user-service';
+import { CountryManager } from '../../providers/data-service/country-service';
 import { IUser } from '../../models/IUser';
+import { ICountry } from '../../models/ICountry';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -14,18 +16,21 @@ import { Observable } from 'rxjs/Observable';
 export class ProfileForm {
     profileForm;
     profile: Observable<IUser>;
+    countries: Observable<ICountry[]>;
 
     constructor(
         private auth: AuthService,
         private formBuilder : FormBuilder,
         private app: App,
         private userManager: UserManager,
+        private countryManager: CountryManager,
         private actionSheetController: ActionSheetController,
         private viewController: ViewController
     ) {}
 
     ngOnInit() {
         this.profile = this.userManager.getProfileById(this.auth.afAuth.auth.currentUser.uid);
+        this.countries = this.countryManager.getAllCountries();
         this.profileForm = this.formBuilder.group(
             {
                 // control 2 - description

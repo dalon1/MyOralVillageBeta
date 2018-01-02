@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, App } from 'ionic-angular';
 import { FileAddForm } from '../file-manage/file-add-form';
+import { FileDetailPage } from '../file-details/file-details';
 import { FilesPage } from '../file-page/files-page';
 
 import { FileManager } from '../../providers/data-service/file-service';
@@ -56,6 +57,11 @@ export class HomePage {
       this.canUploadFiles = true;
     }
     
+  }
+
+  goToFileDetails(id : string) {
+    this.fileManager.fileId = id;
+    this.app.getRootNav().push(FileDetailPage);
   }
 
   loadFiles() {

@@ -3,8 +3,10 @@ import { Observable } from 'rxjs/Observable';
 import { IDocument } from '../../models/IDocuments';
 import { Element } from '../../models/Element';
 import { FileManager } from '../../providers/data-service/file-service';
+import { FileDetailPage } from '../file-details/file-details';
 import { IUser } from '../../models/IUser';
 import { UserManager } from '../../providers/data-service/user-service';
+import { App } from 'ionic-angular';
 
 @Component({
     selector: 'files-page',
@@ -17,13 +19,14 @@ export class FilesPage {
     users: Observable<IUser[]>;
 
     constructor(
+        private app: App,
         private fileManager: FileManager,
         private userManager: UserManager
     ) {
         this.documentList = new Array<FeedViewModel>();
         this.users = this.userManager.getProfiles();
         this.loadFiles();
-        this.categories = this.fileManager.getCategories();
+        this.categories = this.fileManager.createElementList(this.fileManager.getCategories());
         this.tags = this.fileManager.getTags();
     }
 
@@ -42,6 +45,11 @@ export class FilesPage {
           });        
         });   
       }
+    
+    goToFileDetails(id : string) {
+        this.fileManager.fileId = id;
+        this.app.getRootNav().push(FileDetailPage);
+    }
 }
 
 class FeedViewModel {

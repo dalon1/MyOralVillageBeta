@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { App, AlertController, ToastController } from 'ionic-angular';
+import { App, AlertController, ToastController, NavController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { IDocument } from '../../models/IDocuments';
 import { IComment } from '../../models/IComment';
@@ -19,6 +19,7 @@ export class FileDetailPage {
         private fileManager: FileManager,
         private formBuilder: FormBuilder,
         private app: App,
+        public navCtrl: NavController,
         private alertController: AlertController,
         private toastController: ToastController
     ) {
@@ -69,9 +70,7 @@ export class FileDetailPage {
         // nothing yet
         if (typeof this.fileManager.fileId != 'undefined') {
             this.fileManager.deleteFile(this.fileManager.fileId);
-            // TODO fix this >> 
-            this.app.getActiveNav().push(HomePage);
-            //this.app.getRootNav().push(HomePage);
+            this.navCtrl.popToRoot();
         }
     }
 

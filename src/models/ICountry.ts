@@ -1,3 +1,3 @@
 export interface ICountry{
-    title:string;
+    name: string;
 }

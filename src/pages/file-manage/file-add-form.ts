@@ -72,7 +72,7 @@ export class FileAddForm {
         }
 
         console.log(formInput);
-        this.fileManager.addFile(formInput);
+        this.fileManager.fileId = this.fileManager.addFile(formInput);
         this.app.getRootNav().push(FileDetailPage);
     }
 

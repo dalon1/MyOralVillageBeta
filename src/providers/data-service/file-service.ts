@@ -30,25 +30,22 @@ export class FileManager {
     /**
      * TODO: Remove duplicates and sort
      */
-    getCategories() : Element[] {
+    getCategories() : string[] {
         
-        let categories: Element[] = [];
+        let categories: string[] = [];
         this.getFiles().subscribe(files => files.forEach(function(file) {
             if (typeof file.categories != 'undefined' && file.categories instanceof Array) {
                 file.categories.forEach(category =>
                     {
                         
-                        categories.push(new Element(category));
+                        categories.push(category);
                     }
                 );
             }
         }));
         
         console.log(categories);
-        /**
-         * IMPORTANT:This is printing 0 instead of the actual length of the array due to timing issues.
-         */
-        console.log(categories.length);
+        
         return categories;
         //return this.createElementList(categories, limit);
     }
@@ -95,7 +92,7 @@ export class FileManager {
         return this.angularFireStore.doc<IDocument>(`documents/${id}`).valueChanges();
     }
 
-    addFile(file: IDocument) {
+    addFile(file: IDocument) : string {
         // 1. storing file to firebase
         // TODO add the full path of the file
         let storagePath = `files/${file.name}`;
@@ -122,16 +119,16 @@ export class FileManager {
         //file.modifiedAt = new Date();
 
         // 3. storing file's information to fire store
-        let id = this.angularFireStore.createId();
         file.file = null;
-        this.angularFireStore.collection('documents').doc(id).set(file)
+        file.id = this.angularFireStore.createId();
+        this.angularFireStore.collection('documents').doc(file.id).set(file)
         .then(function(document){
             console.log('success!');
         })
         .catch(function(e){
             console.log(e);
         });
-        this.fileId = id;
+        return file.id;
     }
 
     updateFile() {
@@ -187,27 +184,27 @@ export class FileManager {
 
     createElementList(list: string[]) : Element[] {
         let newList : Element[] = [];
-        //for (var i = 0; i < limit; i++) {
-        for (var i = 0; i < list.length; i++) {
-            if (this.isElementInList(newList, list[i])) {
-                console.log("TRUE");
-                continue;
+        list.forEach(element => {
+            if (!this.isElementInList(newList, element)) {
+                window.console.log("NOT IN ELEMENT");
+                newList.push(this.countOccurrences(list, element));
             }
-            console.log("FALSE");
-            newList.push(this.countOccurrences(list, list[i]));
-        }
+            window.console.log("IN ELEMENT");
+        });
         console.log(list);
+        console.log(list.length);
         console.log(newList);
         return newList;
     }
 
     private countOccurrences(list: string[], value: string) : Element {
         let element: Element = new Element(value);
-        for (var i = 0; i < list.length; i++) {
-            if (list[i] === element.name) {
+        window.console.log(list);
+        list.forEach(temp => {
+            if (temp === element.name) {
                 element.numOfOccurrence++;
             }
-        }
+        });
         return element;
     }
 

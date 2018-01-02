@@ -35,6 +35,7 @@ export class AuthService {
       .then(() => {
         const usersCollection = this.afFirestore.collection<IUser>('users').doc(this.afAuth.auth.currentUser.uid);
         usersCollection.set({
+          id: this.afAuth.auth.currentUser.uid,
           name: name,
           email: newEmail,
           role: role ? role:Role.Member

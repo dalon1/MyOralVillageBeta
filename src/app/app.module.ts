@@ -43,6 +43,7 @@ import { DataService } from '../providers/data-service/data-service';
 import { FileManager } from '../providers/data-service/file-service';
 import { UserManager } from '../providers/data-service/user-service';
 import { NewsManager} from '../providers/data-service/news-service';
+import { CountryManager } from '../providers/data-service/country-service';
 
 import { UserIdPipe } from '../utils/pipes/user-id-pipe';
 
@@ -119,7 +120,8 @@ export const firebaseConfig = {
     DataService,
     FileManager,
     UserManager,
-    NewsManager
+    NewsManager,
+    CountryManager
   ]
 })
 export class AppModule {}

@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let model of documentList">
+  <ion-card *ngFor="let model of documentList" (click)="goToFileDetails(model.document.id)">
     <ion-item>
        <ion-avatar item-left>     
          <img [src]="model.user.avatarUrl" />
