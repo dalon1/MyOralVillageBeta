@@ -7,14 +7,19 @@
  </ion-header>
         
 <ion-content>
-    <h1 item-center>File Details</h1>
+  <ion-item>
+    <h1>File Details</h1>
+    <button ion-button type="button" #item [value]="(selectedFile | async)?.name" item-right color="primary" (click)="downloadFile(item.value)">
+        <ion-icon name="download" item-right></ion-icon> Download
+    </button>
+  </ion-item>
     <!-- Title -->
     <ion-item text-wrap>
       <ion-icon name="document" item-left></ion-icon> Title: {{ (selectedFile | async)?.title }}
     </ion-item>
     <!-- Name -->
     <ion-item text-wrap>
-      <ion-icon name="document" item-left></ion-icon> Title: {{ (selectedFile | async)?.name }}
+      <ion-icon name="document" item-left></ion-icon> Name: {{ (selectedFile | async)?.name }}
     </ion-item>
     <!-- Description -->
     <ion-item text-wrap>
@@ -26,11 +31,11 @@
     </ion-item>
     <!-- Created At -->
     <ion-item text-wrap>
-      <ion-icon name="time" item-left></ion-icon> Created At: {{ (selectedFile | async)?.createdAt }}
+      <ion-icon name="time" item-left></ion-icon> Created At: {{ (selectedFile | async)?.createdAt | date: 'medium' }}
     </ion-item>
     <!-- Modify At -->
     <ion-item text-wrap>
-      <ion-icon name="time" item-left></ion-icon> Modified At: {{ (selectedFile | async)?.modifiedAt }}
+      <ion-icon name="time" item-left></ion-icon> Modified At: {{ (selectedFile | async)?.modifiedAt | date: 'medium' }}
     </ion-item>
     <!-- Categories -->
     <ion-item text-wrap>
@@ -84,7 +89,6 @@
           </ion-item>
     </form>
     
-    <button ion-button full color="secondary" (click)="updateFile()">Update File</button>
-    <button ion-button full color="primary" (click)="showDeleteFileAlert()">Delete</button>
+    <button ion-button full color="primary" (click)="fileActions()">Update File</button>
         
 </ion-content>

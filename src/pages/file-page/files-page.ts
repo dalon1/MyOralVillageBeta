@@ -4,6 +4,7 @@ import { IDocument } from '../../models/IDocuments';
 import { Element } from '../../models/Element';
 import { FileManager } from '../../providers/data-service/file-service';
 import { FileDetailPage } from '../file-details/file-details';
+import { ExternalProfile } from '../profile/external-profile';
 import { IUser } from '../../models/IUser';
 import { UserManager } from '../../providers/data-service/user-service';
 import { App } from 'ionic-angular';
@@ -26,7 +27,7 @@ export class FilesPage {
         this.documentList = new Array<FeedViewModel>();
         this.users = this.userManager.getProfiles();
         this.loadFiles();
-        this.categories = this.fileManager.createElementList(this.fileManager.getCategories());
+        this.categories = this.fileManager.getCategories();
         this.tags = this.fileManager.getTags();
     }
 
@@ -49,6 +50,46 @@ export class FilesPage {
     goToFileDetails(id : string) {
         this.fileManager.fileId = id;
         this.app.getRootNav().push(FileDetailPage);
+    }
+
+    goToExternalProfile(id : string) {
+        this.userManager.profileId = id;
+        this.app.getRootNav().push(ExternalProfile);
+    }
+
+    private createElementList(list: string[]) : Element[] {
+        let newList : Element[] = [];
+        list.forEach(element => {
+            if (!this.isElementInList(newList, element)) {
+                window.console.log("NOT IN ELEMENT");
+                newList.push(this.countOccurrences(list, element));
+            }
+            window.console.log("IN ELEMENT");
+        });
+        console.log(list);
+        console.log(list.length);
+        console.log(newList);
+        return newList;
+    }
+
+    private countOccurrences(list: string[], value: string) : Element {
+        let element: Element = new Element(value);
+        window.console.log(list);
+        list.forEach(temp => {
+            if (temp === element.name) {
+                element.numOfOccurrence++;
+            }
+        });
+        return element;
+    }
+
+    private isElementInList(list: Element[], element: string): boolean {
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].name === element) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

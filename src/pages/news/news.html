@@ -16,20 +16,43 @@
 
 
 <ion-content>
-  <ion-card *ngFor="let new of (news | async)">
-      <ion-card-header>
-          {{ new.title }}
-        </ion-card-header>
-        <ion-card-content>
-            {{ new.content }}
-            <br>
-            <ion-badge color="secondary">
-                <!-- TODO check if this affects performance -->
-                By: {{ ((new.userId | userIdPipe) | async)?.name }}
-            </ion-badge> 
-        </ion-card-content>
+  <ion-card *ngFor="let model of newsList" (click)="goToNewsDetails(model.news.id)">
+    <ion-item>
+       <ion-avatar item-left>     
+         <img [src]="model.user.avatarUrl" />
+       </ion-avatar>
+       <h2>{{model.user.name}} <small>/ {{ model.user.role }}</small></h2>
+       <p>{{model.news.createdAt | date: 'longDate'}}</p>   
+    </ion-item>
+
+    <ion-card-content>
+      <ion-label class="document-title">{{ model.news.title }}</ion-label>
+      <ion-label text-wrap class="document-description ">{{ model.news.content }} </ion-label> 
+      <ion-label>{{ model.news.url }}</ion-label>   
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>12 Likes</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        
+      </ion-col>
+      <ion-col center text-center>
+          <!--<ion-note>
+              {{model.document.modifiedAt | amTimeAgo}}
+          </ion-note>-->
+        <ion-note>
+          {{model.news.createdAt | date: 'shortDate' }}
+        </ion-note>
+      </ion-col>
+    </ion-row>
+
   </ion-card>
-    <button ion-button block color="primary" full (click)="goToNewAddFormPage()">
-        <ion-icon name="add" item-center></ion-icon>
-      </button>
+  <ion-fab bottom right (click)="goToNewAddFormPage()">
+    <button ion-fab mini><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>

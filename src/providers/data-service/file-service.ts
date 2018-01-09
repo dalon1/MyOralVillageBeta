@@ -30,15 +30,15 @@ export class FileManager {
     /**
      * TODO: Remove duplicates and sort
      */
-    getCategories() : string[] {
+    getCategories() : Element[] {
         
-        let categories: string[] = [];
+        let categories: Element[] = [];
         this.getFiles().subscribe(files => files.forEach(function(file) {
             if (typeof file.categories != 'undefined' && file.categories instanceof Array) {
                 file.categories.forEach(category =>
                     {
                         
-                        categories.push(category);
+                        categories.push(new Element(category));
                     }
                 );
             }
@@ -115,8 +115,8 @@ export class FileManager {
         }).catch(error => console.log(error));
         //file.name = this.uploadTask.snapshot.-- * --
         file.visibility = file.visibility ? "PRIVATE" : "PUBLIC";
-        //file.createdAt = new Date();
-        //file.modifiedAt = new Date();
+        file.createdAt = new Date(); // temporal
+        file.modifiedAt = new Date(); // temporal
 
         // 3. storing file's information to fire store
         file.file = null;
@@ -138,6 +138,8 @@ export class FileManager {
     deleteFile(id:string) {
         this.angularFireStore.collection('documents').doc(id).delete()
         .then(() => console.log('Document deleted')).catch(error => console.log(error));
+        // We require the name here >>
+        this.fireBaseApp.storage().ref().child(null).delete();
     }
 
     /**
@@ -227,5 +229,15 @@ export class FileManager {
     private count(arr) {
         return arr.reduce((prev, curr) => (prev[curr] = ++prev[curr] || 1, prev), {})
       }
-      
+    
+      /**
+       * Download URL of the file
+       * @param fileName 
+       */
+    downloadFile(fileName : string) {
+        let storageReference = this.fireBaseApp.storage().ref().child(`files/${fileName}`);
+        storageReference.getDownloadURL().then(function(url) {
+            console.log(url);
+        });
+    }
 }

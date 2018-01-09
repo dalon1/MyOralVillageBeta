@@ -28,6 +28,7 @@ import { NewsAddForm } from '../pages/news-manage/news-add-form';
 import { ResetPassword } from '../pages/reset-password/reset-password';
 import { Profile } from '../pages/profile/profile';
 import { ProfileForm } from '../pages/profile/profile-form';
+import { ExternalProfile } from '../pages/profile/external-profile';
 import { FilesPage } from '../pages/file-page/files-page';
 import { FileAddForm } from '../pages/file-manage/file-add-form';
 import { FileDetailPage } from '../pages/file-details/file-details';
@@ -73,6 +74,7 @@ export const firebaseConfig = {
     ResetPassword,
     Profile,
     ProfileForm,
+    ExternalProfile,
     FileAddForm,
     FilesPage,
     FileDetailPage,
@@ -104,6 +106,7 @@ export const firebaseConfig = {
     ResetPassword,
     Profile,
     ProfileForm,
+    ExternalProfile,
     FileAddForm,
     FilesPage,
     FileDetailPage,

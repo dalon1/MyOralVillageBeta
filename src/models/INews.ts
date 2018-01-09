@@ -5,5 +5,5 @@ export interface INews {
     content: string;
     type: string;
     userId: string;
-    date: string;
+    createdAt: Date;
 }

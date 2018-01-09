@@ -1,0 +1,32 @@
+<ion-header>
+
+    <ion-navbar>
+      <ion-toolbar no-border-top color="primary" *ngIf="demo != 'Title'">
+        <ion-searchbar></ion-searchbar>
+      </ion-toolbar>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content>
+      <ion-item>
+        <div class="center">
+            <img class="profile-picture" src="https://avatars.io/static/default_128.jpg">
+        </div>
+      </ion-item>
+      <ion-item text-wrap>
+        <ion-icon name="contact" item-left></ion-icon> Name: {{(profile | async)?.name}}
+      </ion-item>
+      <ion-item text-wrap>
+        <ion-icon name="contacts" item-left></ion-icon> Role: {{(profile | async)?.role}}
+      </ion-item>
+      <ion-item text-wrap>
+          <ion-icon name="mail" item-left></ion-icon> Email: {{(profile | async)?.email}}
+      </ion-item>
+      <ion-item text-wrap>
+        <ion-icon name="briefcase" item-left></ion-icon> About Me: {{ (profile | async)?.description }}
+      </ion-item>
+      <ion-item text-wrap>
+        <ion-icon name="map" item-left></ion-icon> Country: {{ (profile | async)?.country }}
+      </ion-item>
+  
+  </ion-content>

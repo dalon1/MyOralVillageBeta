@@ -1,0 +1,12 @@
+external-profile-page {
+    .profile-picture {
+        // this should be changed soon. Use em instead of px
+        background: black;
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+}

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { App, AlertController, ToastController, NavController } from 'ionic-angular';
+import { App, AlertController, ToastController, NavController, ActionSheetController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { IDocument } from '../../models/IDocuments';
 import { IComment } from '../../models/IComment';
@@ -13,6 +13,7 @@ import { FileManager } from '../../providers/data-service/file-service';
 })
 export class FileDetailPage {
     private selectedFile: Observable<IDocument>;
+    private temp: IDocument;
     private commentForm;
 
     constructor(
@@ -21,7 +22,8 @@ export class FileDetailPage {
         private app: App,
         public navCtrl: NavController,
         private alertController: AlertController,
-        private toastController: ToastController
+        private toastController: ToastController,
+        private actionSheetController: ActionSheetController
     ) {
         // TODO A better approach should be implemented here...
         if (typeof this.fileManager.fileId != 'undefined') {
@@ -91,4 +93,59 @@ export class FileDetailPage {
         toast.present();
     }
 
+    downloadFile(name: string) {
+        this.fileManager.downloadFile(name);
+    }
+
+    fileActions() {
+        let actionSheet = this.actionSheetController.create({
+            title: 'Modify File',
+            buttons: [
+                {
+                    text: 'Delete',
+                    role: 'destructive',
+                    handler: () => {
+                        console.log('File Deleted!');
+                        this.showDeleteFileAlert();
+                    }
+
+                },
+                {
+                    text: 'Update File',
+                    handler: () => {
+                        console.log('Update File Form Called');
+                    }
+
+                },
+                {
+                    text: 'Download File',
+                    handler: () => {
+                        console.log('Download File called!');
+                    }
+
+                },
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('cancel');
+                    }
+                }
+            ]
+        });
+        actionSheet.present();
+    }
+    
+
+    /*loadFile(id: string) : IDocument {
+        let temp = this.fileManager.getFileById(id).subscribe((data:IDocument) =>{
+            new DetailView(temp);
+        });
+    }*/
+}
+
+class DetailView {
+    constructor(
+        public document : IDocument
+    ) {}
 }

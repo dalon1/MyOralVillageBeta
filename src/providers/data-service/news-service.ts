@@ -19,11 +19,6 @@ export class NewsManager {
     }
 
     getNews() : Observable<INews[]> {
-        //return this.angularFireStore.doc<INews[]>(`news`).valueChanges();
-        /*const INews = this.angularFireStore.collection<INews>('news');
-        return dispatch => {
-            
-        }*/
         return this.angularFireStore.collection<INews>('news').valueChanges();
     }
 
@@ -34,11 +29,11 @@ export class NewsManager {
     addNews(news: INews) : string {
         // setting the user's id for the respective news
         news.userId = this.auth.afAuth.auth.currentUser.uid;
-        let id = this.angularFireStore.createId();
-        this.angularFireStore.collection('news').doc(id).set(news).then(function(){
+        news.id = this.angularFireStore.createId();
+        this.angularFireStore.collection('news').doc(news.id).set(news).then(function(){
             console.log('sucess saving news');
         }).catch(error => console.log(error));
-        return id;
+        return news.id;
     }
 
     updateNews() {
