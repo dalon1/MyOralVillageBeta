@@ -2,7 +2,7 @@
     
       <ion-navbar>
         <ion-toolbar no-border-top color="primary" *ngIf="demo != 'Title'">
-          <ion-searchbar></ion-searchbar>
+          <ion-searchbar (ionInput)="searchEverything($event)"></ion-searchbar>
         </ion-toolbar>
       </ion-navbar>
     
@@ -77,13 +77,13 @@
         </button>
       </ion-item>
 
-      <ion-card *ngFor="let user of (users | async)" (click)="goToExternalProfile(user?.id)">
+      <ion-card *ngFor="let model of users" (click)="goToExternalProfile(model.user.id)">
           <ion-item>
               <ion-avatar item-left>     
                 <img src='https://avatars.io/static/default_128.jpg' />
               </ion-avatar>
-              <h2>{{ user?.name}}</h2>
-              <p>{{ user?.role }}</p>   
+              <h2>{{ model.user.name}}</h2>
+              <p>{{ model.user.role }}</p>   
            </ion-item>
            <!--<ion-card-content *ngIf="user?.description">
              <p>{{ user?.description }}</p>
@@ -91,7 +91,7 @@
       </ion-card>
 
       <div text-center>
-        <h5>{{ (users | async)?.length }} Profiles</h5>
+        <h5>{{ users.length }} Profiles</h5>
       </div>
 
       <ion-item>

@@ -2,7 +2,7 @@
   <ion-navbar>
     <!-- <ion-title>Home</ion-title> -->
     <ion-toolbar no-border-top color="primary" *ngIf="demo != 'Title'">
-      <ion-searchbar></ion-searchbar>
+      <ion-searchbar (ionInput)="searchFile($event)"></ion-searchbar>
     </ion-toolbar>
   </ion-navbar>
   
@@ -63,7 +63,7 @@
       <ion-fab-list side="top">
         <button ion-fab (click)="goToDocumentAddFormPage()"><ion-icon name="document"></ion-icon></button>
         <button ion-fab (click)="goToAll()">ALL</button>
-        <button ion-fab (click)="tempAddFile()"><ion-icon name="chatbubbles"></ion-icon></button>
+        <button ion-fab (click)="temp()"><ion-icon name="chatbubbles"></ion-icon></button>
       </ion-fab-list>
     </ion-fab>
 </ion-content>

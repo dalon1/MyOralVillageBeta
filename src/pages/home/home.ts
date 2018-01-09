@@ -29,9 +29,8 @@ export class HomePage {
     private userManager: UserManager,
     private authManager: AuthService) {     
 
-      this.loadFiles();
+      this.documentList = this.loadFiles();
       this.setUploadVisible();
-      
          
   }
 
@@ -43,8 +42,19 @@ export class HomePage {
     this.app.getRootNav().push(FilesPage);
   }
 
-  tempAddFile() {
-    this.app.getRootNav().push(FileUpload);
+  temp() {
+    var keyword = "can";
+    if (keyword && keyword.trim() != '') {
+      this.documentList.filter((model) => {
+        if (model.document.title.toLowerCase().includes(keyword.toLowerCase())) {
+          console.log("true");
+        } else {
+          console.log("false");
+        }
+        return model.document.title.toLowerCase().includes(keyword.toLowerCase());
+      })
+       console.log(this.documentList.length);
+    }
   }
 
   setUploadVisible(){    
@@ -64,7 +74,31 @@ export class HomePage {
     this.app.getRootNav().push(FileDetailPage);
   }
 
-  loadFiles() {
+  searchFile(event) {
+    var keyword = event.target.value;
+
+    if (keyword && keyword.trim() != '') {
+      keyword = keyword.toLowerCase();
+      this.documentList = this.documentList.filter((model) => {
+        return (
+          // search by title
+          model.document.title.toLowerCase().includes(keyword) ||
+          // search by category >> exact spelling or includes????? Currently: exact spelling
+          model.document.categories.map(category => category.toLowerCase().includes(keyword)).indexOf(true) > -1 ||
+          // search by tag >> 
+          model.document.tags.map(tag => tag.toLowerCase().includes(keyword)).indexOf(true) > -1 ||
+          // search by user name
+          model.user.name.toLowerCase().includes(keyword)
+        );
+      });
+    } else {
+      // reset back all documents when search is empty
+      this.documentList = this.loadFiles();
+    }
+  }
+
+  loadFiles() : Array<FeedViewModel> {
+    let docList : Array<FeedViewModel> = new Array<FeedViewModel>();
     this.fileManager.getFiles().subscribe((data : Array<IDocument>) => {
       data.forEach( (doc: IDocument) => {                    
         let user = this.userManager.getProfileById(doc.userId).subscribe((user:IUser) => {     
@@ -74,10 +108,11 @@ export class HomePage {
             doc.modifiedAt = doc.modifiedAt == null || doc.modifiedAt.toString() == '' ? new Date('2017-01-01') : doc.modifiedAt;            
             
             let model = new FeedViewModel(doc,user);
-            this.documentList.push(model);              
+            docList.push(model);              
         });
       });        
-    });   
+    });  
+    return docList; 
   }
 }
 

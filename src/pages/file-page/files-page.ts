@@ -17,21 +17,61 @@ export class FilesPage {
     documentList: Array<FeedViewModel>;
     categories: Element[];
     tags: Element[];
-    users: Observable<IUser[]>;
+    users: Array<UserViewModel>;
 
     constructor(
         private app: App,
         private fileManager: FileManager,
         private userManager: UserManager
     ) {
-        this.documentList = new Array<FeedViewModel>();
-        this.users = this.userManager.getProfiles();
-        this.loadFiles();
+        this.documentList = this.loadFiles();
+        this.users = this.loadUsers();
         this.categories = this.fileManager.getCategories();
         this.tags = this.fileManager.getTags();
     }
 
-    loadFiles() {
+    searchEverything(event) {
+        var keyword = event.target.value;
+        if (keyword && keyword.trim() != '') {
+            keyword = keyword.toLowerCase();
+            this.categories = this.categories.filter((category) => {
+                return category.name.toLowerCase().includes(keyword);
+            });
+            this.tags = this.tags.filter((tag) => {
+                return tag.name.toLowerCase().includes(keyword);
+            })
+            this.users = this.users.filter((model) => {
+                return (
+                    // search by name
+                    model.user.name.toLowerCase().includes(keyword) ||
+                    // search by role
+                    model.user.role.toLowerCase().includes(keyword)
+                    // search by country >> PENDING
+                );
+            });
+            this.documentList = this.documentList.filter((model) => {
+                return (
+                    // search by title
+                    model.document.title.toLowerCase().includes(keyword) ||
+                    // search by user profile
+                    model.user.name.toLowerCase().includes(keyword) ||
+                    // search by category
+                    model.document.categories.map(category => category.toLowerCase().includes(keyword)).indexOf(true) > -1 ||
+                    // search by tag
+                    model.document.tags.map(tag => tag.toLowerCase().includes(keyword)).indexOf(true) > -1
+                );
+            });
+        } else {
+            // reset everything back to orginal state
+            this.categories = this.fileManager.getCategories();
+            this.tags = this.fileManager.getTags();
+            this.documentList = this.loadFiles();
+            this.users = this.loadUsers();
+        }
+    }
+
+    loadFiles() : Array<FeedViewModel> {
+        let docList : Array<FeedViewModel> = new Array<FeedViewModel>();
         this.fileManager.getFiles().subscribe((data : Array<IDocument>) => {
           data.forEach( (doc: IDocument) => {                    
             let user = this.userManager.getProfileById(doc.userId).subscribe((user:IUser) => {     
@@ -44,8 +84,19 @@ export class FilesPage {
                 this.documentList.push(model);              
             });
           });        
-        });   
+        });
+        return docList;
       }
+
+    loadUsers() : Array<UserViewModel> {
+        let userList : Array<UserViewModel> = new Array<UserViewModel>();
+        this.userManager.getProfiles().subscribe((data : Array<IUser>) => {
+            data.forEach((user : IUser) => {
+                userList.push(new UserViewModel(user));
+            });
+        });
+        return userList;
+    }
     
     goToFileDetails(id : string) {
         this.fileManager.fileId = id;
@@ -99,3 +150,7 @@ class FeedViewModel {
       public user:IUser
     ){} 
   }
+
+class UserViewModel {
+    constructor(public user: IUser) {}
+}
