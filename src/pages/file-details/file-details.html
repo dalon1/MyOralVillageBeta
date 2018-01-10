@@ -9,8 +9,8 @@
 <ion-content>
   <ion-item>
     <h1>File Details</h1>
-    <button ion-button type="button" #item [value]="(selectedFile | async)?.name" item-right color="primary" (click)="downloadFile(item.value)">
-        <ion-icon name="download" item-right></ion-icon> Download
+    <button ion-button type="button" #item [value]="(selectedFile | async)?.name" item-right color="primary" onclick="window.open('https://www.google.com/', '_system', 'location=yes');">
+        <ion-icon name="eye" item-right></ion-icon> Preview
     </button>
   </ion-item>
     <!-- Title -->
