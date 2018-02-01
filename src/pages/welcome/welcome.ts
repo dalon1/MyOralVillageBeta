@@ -19,6 +19,7 @@ import { AuthService } from '../../providers/auth-service/auth-service';
 })
 export class Welcome {
 
+  private versionNumber : string = '1.0.2';
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private authService: AuthService) {

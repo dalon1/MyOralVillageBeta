@@ -7,9 +7,9 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
-import { Camera } from '@ionic-native/camera';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer'; // Dependency not being used.
+import { File } from '@ionic-native/file'; // Dependency not being used.
+import { Camera } from '@ionic-native/camera'; // Dependency not being used.
 
 import { MainApp } from './app.component';
 
