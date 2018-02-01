@@ -8,6 +8,7 @@ import { ExternalProfile } from '../profile/external-profile';
 import { IUser } from '../../models/IUser';
 import { UserManager } from '../../providers/data-service/user-service';
 import { App } from 'ionic-angular';
+import { LocalSession } from '../../providers/session/local-session';
 
 @Component({
     selector: 'files-page',
@@ -22,7 +23,8 @@ export class FilesPage {
     constructor(
         private app: App,
         private fileManager: FileManager,
-        private userManager: UserManager
+        private userManager: UserManager,
+        private localSession: LocalSession
     ) {
         this.documentList = this.loadFiles();
         this.users = this.loadUsers();
@@ -99,12 +101,12 @@ export class FilesPage {
     }
     
     goToFileDetails(id : string) {
-        this.fileManager.fileId = id;
+        this.localSession.setFileId(id);
         this.app.getRootNav().push(FileDetailPage);
     }
 
     goToExternalProfile(id : string) {
-        this.userManager.profileId = id;
+        this.localSession.setProfileId(id);
         this.app.getRootNav().push(ExternalProfile);
     }
 

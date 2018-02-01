@@ -11,7 +11,6 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class FileManager {
     private user: Observable<IUser>;
-    public fileId: string = '';
     
     constructor(
         private authService: AuthService,

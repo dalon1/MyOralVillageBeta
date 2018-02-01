@@ -7,7 +7,6 @@ import { AuthService } from "../auth-service/auth-service";
 
 @Injectable()
 export class NewsManager {
-    public newsId: string;
 
     constructor(
         private authService: AuthService,

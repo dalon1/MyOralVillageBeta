@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, App } from 'ionic-angular';
+import { NavController, App, AlertController } from 'ionic-angular';
 import { FileAddForm } from '../file-manage/file-add-form';
 import { FileDetailPage } from '../file-details/file-details';
 import { FilesPage } from '../file-page/files-page';
@@ -11,6 +11,8 @@ import { IDocument } from '../../models/IDocuments';
 import { IUser } from '../../models/IUser';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { FileUpload } from '../file-upload/file-upload';
+import { LocalSession } from '../../providers/session/local-session';
+
 
 
 @Component({
@@ -27,7 +29,9 @@ export class HomePage {
     private app: App,
     private fileManager: FileManager,
     private userManager: UserManager,
-    private authManager: AuthService) {     
+    private authManager: AuthService,
+    private alertController: AlertController,
+    private localSession: LocalSession) {     
 
       this.documentList = this.loadFiles();
       this.setUploadVisible();
@@ -70,7 +74,7 @@ export class HomePage {
   }
 
   goToFileDetails(id : string) {
-    this.fileManager.fileId = id;
+    this.localSession.setFileId(id);
     this.app.getRootNav().push(FileDetailPage);
   }
 
@@ -114,6 +118,16 @@ export class HomePage {
     });  
     return docList; 
   }
+
+  showPendingFeatureMsg() {
+    let alert = this.alertController.create({
+        title: 'Pending Feature',
+        subTitle: 'Feature not implemented',
+        message: 'Feature will be implemented in the upcoming software releases.',
+        buttons: ['Ok']
+    })
+    alert.present();
+}
 }
 
  class FeedViewModel {

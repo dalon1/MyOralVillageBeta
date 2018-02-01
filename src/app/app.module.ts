@@ -48,6 +48,8 @@ import { CountryManager } from '../providers/data-service/country-service';
 
 import { UserIdPipe } from '../utils/pipes/user-id-pipe';
 
+import { LocalSession } from '../providers/session/local-session';
+
 export const firebaseConfig = {
   apiKey: "AIzaSyBvuJU6mVWFm8CuS_bPHoHlZ0rLcaEkov4",
   authDomain: "myoralvillage-b7c6a.firebaseapp.com",
@@ -124,7 +126,8 @@ export const firebaseConfig = {
     FileManager,
     UserManager,
     NewsManager,
-    CountryManager
+    CountryManager,
+    LocalSession
   ]
 })
 export class AppModule {}

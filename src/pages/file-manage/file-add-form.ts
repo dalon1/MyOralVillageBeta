@@ -10,6 +10,7 @@ import { FileManager } from '../../providers/data-service/file-service';
 import { FileDetailPage } from '../file-details/file-details';
 import { App, ActionSheetController } from 'ionic-angular';
 import { formGroupNameProvider } from '@angular/forms/src/directives/reactive_directives/form_group_name';
+import { LocalSession } from '../../providers/session/local-session';
 
 @Component({
     selector: 'file-add-form',
@@ -25,7 +26,8 @@ export class FileAddForm {
         private app: App,
         private formBuilder: FormBuilder,
         private fileManager: FileManager,
-        private actionSheetController: ActionSheetController
+        private actionSheetController: ActionSheetController,
+        private localSession: LocalSession
     ) {
 
     }
@@ -71,8 +73,7 @@ export class FileAddForm {
             formInput.type = this.selectedFile.type;
         }
 
-        console.log(formInput);
-        this.fileManager.fileId = this.fileManager.addFile(formInput);
+        this.localSession.setFileId(this.fileManager.addFile(formInput));
         this.app.getRootNav().push(FileDetailPage);
     }
 

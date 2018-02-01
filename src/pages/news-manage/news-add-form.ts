@@ -5,6 +5,7 @@ import { News } from '../news/news';
 import { NewsManager } from '../../providers/data-service/news-service';
 import  { INews } from '../../models/INews';
 import { AuthService } from '../../providers/auth-service/auth-service';
+import { LocalSession } from '../../providers/session/local-session';
 @Component({
   selector: 'news-add-form',
   templateUrl: 'news-add-form.html',
@@ -15,7 +16,8 @@ export class NewsAddForm {
   constructor(
     private newsManager: NewsManager,
     private formBuilder: FormBuilder,
-    private app: App
+    private app: App,
+    private localSession: LocalSession
   ) {
   }
 
@@ -34,7 +36,7 @@ export class NewsAddForm {
 
   uploadNews(formInput: INews) {
     console.log("news added success!");
-    this.newsManager.newsId = this.newsManager.addNews(formInput);
+    this.localSession.setNewsId(this.newsManager.addNews(formInput));
     this.app.getRootNav().push(News);
   }
 }

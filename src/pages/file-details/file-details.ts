@@ -6,6 +6,7 @@ import { IDocument } from '../../models/IDocuments';
 import { IComment } from '../../models/IComment';
 import { Observable } from 'rxjs/Observable';
 import { FileManager } from '../../providers/data-service/file-service';
+import { LocalSession } from '../../providers/session/local-session';
 
 @Component({
     selector: 'file-details-page',
@@ -23,11 +24,12 @@ export class FileDetailPage {
         public navCtrl: NavController,
         private alertController: AlertController,
         private toastController: ToastController,
-        private actionSheetController: ActionSheetController
+        private actionSheetController: ActionSheetController,
+        private localSession: LocalSession
     ) {
         // TODO A better approach should be implemented here...
-        if (typeof this.fileManager.fileId != 'undefined') {
-            this.selectedFile = this.fileManager.getFileById(this.fileManager.fileId);
+        if (typeof this.localSession.getFileId() != 'undefined') {
+            this.selectedFile = this.fileManager.getFileById(this.localSession.getFileId());
             console.log(this.selectedFile);
         }
     }
@@ -70,16 +72,16 @@ export class FileDetailPage {
 
     private deleteFile() {
         // nothing yet
-        if (typeof this.fileManager.fileId != 'undefined') {
-            this.fileManager.deleteFile(this.fileManager.fileId);
+        if (typeof this.localSession.getFileId() != 'undefined') {
+            this.fileManager.deleteFile(this.localSession.getFileId());
             this.navCtrl.popToRoot();
         }
     }
 
     // fix this as well with a form builder 
     commentFile(comment: IComment) {
-        if (typeof this.fileManager.fileId != 'undefined') {
-            this.fileManager.commentFile(this.fileManager.fileId, comment);
+        if (typeof this.localSession.getFileId() != 'undefined') {
+            this.fileManager.commentFile(this.localSession.getFileId(), comment);
             this.showCommentMessage();
         }
     }

@@ -18,8 +18,6 @@ export class UserManager {
         private angularFireStore: AngularFirestore
     ) {}
 
-    public profileId: string;
-
     getProfiles()  : Observable<IUser[]> {
         return this.angularFireStore.collection<IUser>('users').valueChanges();
     }

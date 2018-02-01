@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { INews } from '../../models/INews';
 import { IUser } from '../../models/IUser';
 import { NewsDetailPage } from './news-details';
+import { LocalSession } from '../../providers/session/local-session';
 
 /**
  * Generated class for the NewsPage page.
@@ -25,7 +26,8 @@ export class News {
   constructor(
     private app: App,
     private newsManager: NewsManager,
-    private userManager: UserManager
+    private userManager: UserManager,
+    private localSession: LocalSession
   ) {
   }
 
@@ -38,7 +40,7 @@ export class News {
   }
 
   goToNewsDetails(id : string) {
-    this.newsManager.newsId = id;
+    this.localSession.setNewsId(id);
     this.app.getRootNav().push(NewsDetailPage);
   }
   goToNewAddFormPage() {
