@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
-import { App, ActionSheetController, ViewController } from 'ionic-angular';
+import { App, ActionSheetController, ViewController, AlertController } from 'ionic-angular';
 import { Profile } from './profile';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { UserManager } from '../../providers/data-service/user-service';
@@ -25,7 +25,8 @@ export class ProfileForm {
         private userManager: UserManager,
         private countryManager: CountryManager,
         private actionSheetController: ActionSheetController,
-        private viewController: ViewController
+        private viewController: ViewController,
+        private alertController: AlertController
     ) {}
 
     ngOnInit() {
@@ -55,6 +56,7 @@ export class ProfileForm {
                     text: 'Open Camera',
                     handler: () => {
                         console.log('Open Camera');
+                        this.showPendingFeatureMsg();
                     }
 
                 },
@@ -62,6 +64,7 @@ export class ProfileForm {
                     text: 'Open Gallery',
                     handler: () => {
                         console.log('Open Gallery');
+                        this.showPendingFeatureMsg();
                     }
                 },
                 {
@@ -74,6 +77,16 @@ export class ProfileForm {
             ]
         });
         actionSheet.present();
+    }
+
+    showPendingFeatureMsg() {
+        let alert = this.alertController.create({
+            title: 'Pending Feature',
+            subTitle: 'Feature not implemented',
+            message: 'Feature will be implemented in the upcoming software releases.',
+            buttons: ['Ok']
+        })
+        alert.present();
     }
 
     dismiss() {

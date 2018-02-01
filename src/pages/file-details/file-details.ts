@@ -114,6 +114,7 @@ export class FileDetailPage {
                     text: 'Update File',
                     handler: () => {
                         console.log('Update File Form Called');
+                        this.showPendingFeatureMsg();
                     }
 
                 },
@@ -121,6 +122,7 @@ export class FileDetailPage {
                     text: 'Download File',
                     handler: () => {
                         console.log('Download File called!');
+                        this.showPendingFeatureMsg();
                     }
 
                 },
@@ -142,6 +144,16 @@ export class FileDetailPage {
             new DetailView(temp);
         });
     }*/
+
+    showPendingFeatureMsg() {
+        let alert = this.alertController.create({
+            title: 'Pending Feature',
+            subTitle: 'Feature not implemented',
+            message: 'Feature will be implemented in the upcoming software releases.',
+            buttons: ['Ok']
+        })
+        alert.present();
+    }
 }
 
 class DetailView {
