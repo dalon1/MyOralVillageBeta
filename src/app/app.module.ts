@@ -51,12 +51,12 @@ import { UserIdPipe } from '../utils/pipes/user-id-pipe';
 import { LocalSession } from '../providers/session/local-session';
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyBvuJU6mVWFm8CuS_bPHoHlZ0rLcaEkov4",
-  authDomain: "myoralvillage-b7c6a.firebaseapp.com",
-  databaseURL: "https://myoralvillage-b7c6a.firebaseio.com",
-  projectId: "myoralvillage-b7c6a",
-  storageBucket: "myoralvillage-b7c6a.appspot.com",
-  messagingSenderId: "662357186353"
+  apiKey: "AIzaSyB36ByzinH0EjOJ6qQmWUNXLN4iVbbCgsA",
+  authDomain: "myoralvillage-5f158.firebaseapp.com",
+  databaseURL: "https://myoralvillage-5f158.firebaseio.com",
+  projectId: "myoralvillage-5f158",
+  storageBucket: "myoralvillage-5f158.appspot.com",
+  messagingSenderId: "382379836155"
 }
 
 
