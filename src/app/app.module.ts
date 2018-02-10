@@ -42,6 +42,7 @@ import { Common } from '../providers/common/common';
 import { SplitPane } from '../providers/split-pane/split-pane';
 import { DataService } from '../providers/data-service/data-service';
 import { FileManager } from '../providers/data-service/file-service';
+import { FileCommentManager } from '../providers/data-service/file-comments-service'
 import { UserManager } from '../providers/data-service/user-service';
 import { NewsManager} from '../providers/data-service/news-service';
 import { CountryManager } from '../providers/data-service/country-service';
@@ -124,6 +125,7 @@ export const firebaseConfig = {
     AngularFireModule,
     DataService,
     FileManager,
+    FileCommentManager,
     UserManager,
     NewsManager,
     CountryManager,

@@ -1,5 +1,6 @@
 export interface IComment {
+    fileId: string,
     userId: string;
-    comment: string;
-    createdAt: string;
+    message: string;
+    createdAt: Date;
 }

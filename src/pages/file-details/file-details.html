@@ -67,14 +67,21 @@
     <!-- Comments : this needs to be ngFor -->
     <ion-item text-wrap>
       <ion-icon name="cube" item-left></ion-icon> Comments: 
+      <button ion-button type="button" item-right color="secondary" (click)="showCommentPrompt()">
+        <ion-icon name="add" item-center></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item text-wrap>
       <!--{{ (((selectedFile | async)?.comments?.userId | userIdPipe ) | async)?.name }} {{ (selectedFile | async)?.comments?.comment }}-->
-      <ion-card *ngFor="let comment of (selectedFile | async)?.comments">
-        <ion-card-header>
-          {{ (( comment?.userId | userIdPipe ) | async)?.name }}
-        </ion-card-header>
-        <ion-card-content>
-          {{ comment?.comment }}
-        </ion-card-content>
+      <ion-card *ngFor="let comment of (comments | async)">
+        <ion-item>
+          <ion-avatar item-left>     
+            <img src="https://avatars.io/static/default_48.jpg" />
+          </ion-avatar>
+          <p>{{ comment?.message }}</p>
+          <ion-note>{{ (( comment?.userId | userIdPipe ) | async)?.name }}</ion-note><ion-note> at </ion-note>
+          <ion-note>{{ comment?.createdAt | date: 'shortDate' }}</ion-note>   
+       </ion-item>
       </ion-card>
     </ion-item>
 
@@ -82,7 +89,7 @@
     <form [formGroup]="commentForm" (ngSubmit)="commentFile(commentForm.value)">
         <ion-item text-wrap>
             <ion-label stacked>Comment</ion-label> 
-            <ion-textarea rows="3" placeholder="Add your comment" formControlName="comment"></ion-textarea>
+            <ion-textarea rows="3" placeholder="Add your comment" formControlName="message"></ion-textarea>
             <button ion-button type="submit" item-right color="secondary" [disabled]="!commentForm.valid">
                     <ion-icon name="add" item-center></ion-icon>
             </button>       

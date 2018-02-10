@@ -7,6 +7,7 @@ import { IComment } from '../../models/IComment';
 import { Observable } from 'rxjs/Observable';
 import { FileManager } from '../../providers/data-service/file-service';
 import { LocalSession } from '../../providers/session/local-session';
+import { FileCommentManager } from '../../providers/data-service/file-comments-service';
 
 @Component({
     selector: 'file-details-page',
@@ -14,11 +15,13 @@ import { LocalSession } from '../../providers/session/local-session';
 })
 export class FileDetailPage {
     private selectedFile: Observable<IDocument>;
+    private comments: Observable<IComment[]>;
     private temp: IDocument;
     private commentForm;
 
     constructor(
         private fileManager: FileManager,
+        private fileCommentManager: FileCommentManager,
         private formBuilder: FormBuilder,
         private app: App,
         public navCtrl: NavController,
@@ -30,13 +33,14 @@ export class FileDetailPage {
         // TODO A better approach should be implemented here...
         if (typeof this.localSession.getFileId() != 'undefined') {
             this.selectedFile = this.fileManager.getFileById(this.localSession.getFileId());
+            this.comments = this.fileCommentManager.getCommentsByFile(this.localSession.getFileId());
             console.log(this.selectedFile);
         }
     }
 
     ngOnInit() {
         this.commentForm = this.formBuilder.group({
-            comment: this.formBuilder.control('', Validators.required)
+            message: this.formBuilder.control('', Validators.required)
         })
     }
 
@@ -81,7 +85,9 @@ export class FileDetailPage {
     // fix this as well with a form builder 
     commentFile(comment: IComment) {
         if (typeof this.localSession.getFileId() != 'undefined') {
-            this.fileManager.commentFile(this.localSession.getFileId(), comment);
+            //this.fileManager.commentFile(this.localSession.getFileId(), comment);
+            comment.fileId = this.localSession.getFileId();
+            this.fileCommentManager.addCommment(comment);
             this.showCommentMessage();
         }
     }
@@ -147,13 +153,53 @@ export class FileDetailPage {
         });
     }*/
 
+    showCommentPrompt() {
+        let alert = this.alertController.create({
+            title: 'Add Comment',
+            subTitle: 'Your opinion matters!',
+            inputs: [
+                {
+                    name: 'message',
+                    placeholder: 'Your comment...'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: data => {
+                        console.log('cancel');
+                    }
+                },
+                {
+                    text: 'Add',
+                    handler: data => {
+                        if (typeof data.message.trim() != 'undefined' && data.message.trim() != '') {
+                            if (typeof this.localSession.getFileId() != 'undefined') {
+                                let comment : IComment = {
+                                    fileId: this.localSession.getFileId(),
+                                    userId: null,
+                                    message: data.message,
+                                    createdAt: null
+                                };
+                                this.fileCommentManager.addCommment(comment);
+                                this.showCommentMessage();
+                            }
+                        }
+                    }
+                }
+            ]
+        });
+        alert.present();
+    }
+
     showPendingFeatureMsg() {
         let alert = this.alertController.create({
             title: 'Pending Feature',
             subTitle: 'Feature not implemented',
             message: 'Feature will be implemented in the upcoming software releases.',
             buttons: ['Ok']
-        })
+        });
         alert.present();
     }
 }
